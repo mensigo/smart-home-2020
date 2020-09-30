@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop.home;
+package ru.sbt.mipt.oop.objects;
 
 import ru.sbt.mipt.oop.events.SensorEvent;
 
@@ -13,7 +13,7 @@ public class Door {
         this.id = id;
     }
 
-    public void handleEvent(SensorEvent event, String roomName) {
+    public void handleUsualEvent(SensorEvent event, String roomName) {
         if (event.getType() == DOOR_OPEN) {
             isOpen = true;
             System.out.println("Door " + id + " in room " + roomName + " was opened.");
@@ -27,7 +27,7 @@ public class Door {
         return id;
     }
 
-//    public void setOpen(boolean open) {
-//        isOpen = open;
-//    }
+    /*public void setOpen(boolean open) {
+        isOpen = open;
+    }*/
 }

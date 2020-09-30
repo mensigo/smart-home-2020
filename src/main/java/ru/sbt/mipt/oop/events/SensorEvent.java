@@ -1,6 +1,6 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.events;
 
-import static ru.sbt.mipt.oop.SensorEventType.*;
+import static ru.sbt.mipt.oop.events.SensorEventType.*;
 
 public class SensorEvent {
     private final SensorEventType type;
@@ -19,19 +19,6 @@ public class SensorEvent {
         return objectId;
     }
 
-    public boolean isLightEvent() {
-        return (type == LIGHT_ON || type == LIGHT_OFF);
-    }
-
-    public boolean isDoorEvent() {
-        return (type == DOOR_OPEN || type == DOOR_CLOSED
-                || type == DOOR_CLOSED_IN_HALL);
-    }
-
-    public boolean isDoorClosedInHallEvent() {
-        return (type == DOOR_CLOSED_IN_HALL);
-    }
-
     @Override
     public String toString() {
         return "SensorEvent{" +
@@ -39,4 +26,17 @@ public class SensorEvent {
                 ", objectId='" + objectId + '\'' +
                 '}';
     }
+
+    public boolean isSendCommandNeedyEvent() { return (type == DOOR_CLOSED_IN_HALL); }  // special events
+
+    public boolean isDoorClosedInHallSpecialEvent() { return (type == DOOR_CLOSED_IN_HALL); }  // special #1
+
+    public boolean isLightUsualEvent() {
+        return (type == LIGHT_ON || type == LIGHT_OFF);
+    }  // usual #1
+
+    public boolean isDoorUsualEvent() { return (type == DOOR_OPEN || type == DOOR_CLOSED);  // usual #2
+    }
+
+
 }

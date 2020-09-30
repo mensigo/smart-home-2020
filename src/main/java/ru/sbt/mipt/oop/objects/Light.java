@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop.home;
+package ru.sbt.mipt.oop.objects;
 
 import ru.sbt.mipt.oop.events.SensorEvent;
 
@@ -13,7 +13,7 @@ public class Light {
         this.isOn = isOn;
     }
 
-    public void handleEvent(SensorEvent event, String roomName) {
+    public void handleUsualEvent(SensorEvent event, String roomName) {
         if (event.getType() == LIGHT_ON) {
             isOn = true;
             System.out.println("Light " + id + " in room " + roomName + " was turned on.");
@@ -23,7 +23,7 @@ public class Light {
         }
     }
 
-    public void handleEventQuietly(SensorEvent event) {
+    public void handleUsualEventQuietly(SensorEvent event) {
         if (event.getType() == LIGHT_ON) {
             isOn = true;
         } else {

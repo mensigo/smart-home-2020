@@ -1,39 +1,30 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.general;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static ru.sbt.mipt.oop.SensorEventType.*;
+import ru.sbt.mipt.oop.commands.SensorCommand;
+import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.events.SensorEventType;
+import ru.sbt.mipt.oop.io.SmartHomeDataInput;
+import ru.sbt.mipt.oop.io.SmartHomeDataInputJSON;
 
 public class Application {
 
     public static void main(String... args) throws Exception {
-        // считываем состояние дома из источника
-        SmartHomeDataSource smartHomeDataSource = new SmartHomeDataSourceJSON("smart-home-1.js");
-        SmartHome smartHome = smartHomeDataSource.getSmartHomeData();
-        // начинаем цикл обработки событий
+        // get smartHome state from some source
+        SmartHomeDataInput smartHomeInput = new SmartHomeDataInputJSON("smart-home-1.js");
+        SmartHome smartHome = smartHomeInput.getData();
+        // setup command module
+        TotalCommander commander = new TotalCommander();
+        // start events handling cycle
         SensorEvent event = getNextSensorEvent();
         while (event != null) {
             System.out.println("Got event: " + event);
-            if (event.isLightEvent()) {
-                // событие от источника света
-                for (Room room : smartHome.getRooms()) {
-                    room.handleLightEvent(event);
-                }
+            if (event.isSendCommandNeedyEvent()) {
+                // "special" events: DoorClosedInHall etc.
+                commander.handleSpecialEvent(event, smartHome);
             }
-            if (event.isDoorEvent()) {
-                // событие от двери
-                if (event.isDoorClosedInHallEvent()) {
-                    smartHome.DoorClosedInHallEvent();
-                }
-                else {
-                    for (Room room : smartHome.getRooms()) {
-                        room.handleDoorEvent(event);
-                    }
-                }
+            else {
+                // "usual" events: Light, Door events etc.
+                smartHome.handleUsualEvent(event);
             }
             event = getNextSensorEvent();
         }
@@ -45,8 +36,8 @@ public class Application {
 
     private static SensorEvent getNextSensorEvent() {
         // pretend like we're getting the events from physical world, but here we're going to just generate some random events
-        if (Math.random() < 0.05) return null; // null means end of event stream
-        SensorEventType sensorEventType = SensorEventType.values()[(int) (4 * Math.random())];
+        if (Math.random() < 0.05) { return null; } // null means end of event stream
+        SensorEventType sensorEventType = SensorEventType.values()[(int) (SensorEventType.values().length * Math.random())];
         String objectId = "" + ((int) (10 * Math.random()));
         return new SensorEvent(sensorEventType, objectId);
     }

@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop.home;
+package ru.sbt.mipt.oop.objects;
 
 import ru.sbt.mipt.oop.events.SensorEvent;
 
@@ -20,7 +20,7 @@ public class Room {
             // events from Light
             for (Light light : lights) {
                 if (light.getId().equals(event.getObjectId())) {
-                    light.handleEvent(event, name);
+                    light.handleUsualEvent(event, name);
                 }
             }
         }
@@ -28,7 +28,7 @@ public class Room {
             // events from Door
             for (Door door : doors) {
                 if (door.getId().equals(event.getObjectId())) {
-                    door.handleEvent(event, name);
+                    door.handleUsualEvent(event, name);
                 }
             }
         }
@@ -39,11 +39,7 @@ public class Room {
         return lights;
     }
 
-    public Collection<Door> getDoors() {
-        return doors;
-    }
+    public Collection<Door> getDoors() { return doors; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 }
