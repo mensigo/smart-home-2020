@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop.io;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ru.sbt.mipt.oop.general.SmartHome;
+import ru.sbt.mipt.oop.objects.SmartHome;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -20,12 +20,15 @@ public class SmartHomeDataOutputJSON implements SmartHomeDataOutput {
     }
 
     @Override
-    public void pushData(SmartHome smartHome) throws IOException {
+    public void writeSmartHomeData(SmartHome smartHome) {
         String jsonString = gson.toJson(smartHome);
         System.out.println(jsonString);
         Path path = Paths.get(filePath);
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(jsonString);
+        } catch (IOException exception) {
+            System.out.println("SmartHomeDataOutputJSON::writeSmartHomeData(..) can't write SmartHomeData.");
+            exception.printStackTrace();
         }
     }
 }

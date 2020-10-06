@@ -1,44 +1,57 @@
 package ru.sbt.mipt.oop.general;
 
-import ru.sbt.mipt.oop.commands.SensorCommand;
-import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.events.SensorEventType;
+import ru.sbt.mipt.oop.commands.CommandSender;
+import ru.sbt.mipt.oop.commands.CommandSenderImpl;
+import ru.sbt.mipt.oop.eventhandlers.EventScenarioChooser;
+import ru.sbt.mipt.oop.eventhandlers.EventScenarioChooserImpl;
+import ru.sbt.mipt.oop.events.*;
 import ru.sbt.mipt.oop.io.SmartHomeDataInput;
 import ru.sbt.mipt.oop.io.SmartHomeDataInputJSON;
+import ru.sbt.mipt.oop.io.SmartHomeDataOutput;
+import ru.sbt.mipt.oop.io.SmartHomeDataOutputJSON;
+import ru.sbt.mipt.oop.objects.SmartHome;
 
 public class Application {
+    private final SmartHomeDataInput smartHomeDataInput;
+    private final SmartHomeDataOutput smartHomeDataOutput;
+    private final EventGenerator eventGenerator;
+    private final CommandSender commandSender;
+    private final EventScenarioChooser eventScenarioChooser;
+    private final SmartHome smartHome;
 
-    public static void main(String... args) throws Exception {
-        // get smartHome state from some source
-        SmartHomeDataInput smartHomeInput = new SmartHomeDataInputJSON("smart-home-1.js");
-        SmartHome smartHome = smartHomeInput.getData();
-        // setup command module
-        TotalCommander commander = new TotalCommander();
-        // start events handling cycle
-        SensorEvent event = getNextSensorEvent();
-        while (event != null) {
-            System.out.println("Got event: " + event);
-            if (event.isSendCommandNeedyEvent()) {
-                // "special" events: DoorClosedInHall etc.
-                commander.handleSpecialEvent(event, smartHome);
-            }
-            else {
-                // "usual" events: Light, Door events etc.
-                smartHome.handleUsualEvent(event);
-            }
-            event = getNextSensorEvent();
-        }
+    public Application(SmartHomeDataInput smartHomeDataInput,
+                       SmartHomeDataOutput smartHomeDataOutput,
+                       CommandSender commandSender,
+                       EventScenarioChooser eventScenarioChooser,
+                       EventGenerator eventGenerator) {
+        this.smartHomeDataInput = smartHomeDataInput;
+        this.smartHomeDataOutput = smartHomeDataOutput;
+        this.smartHome = this.smartHomeDataInput.readSmartHomeData();
+        this.commandSender = commandSender;
+        this.eventScenarioChooser = eventScenarioChooser;
+        this.eventGenerator = eventGenerator;;
     }
 
-    static void sendCommand(SensorCommand command) {
-        System.out.println("Pretend we're sending command " + command);
-    }
+    public SmartHome getSmartHome() { return smartHome; }
 
-    private static SensorEvent getNextSensorEvent() {
-        // pretend like we're getting the events from physical world, but here we're going to just generate some random events
-        if (Math.random() < 0.05) { return null; } // null means end of event stream
-        SensorEventType sensorEventType = SensorEventType.values()[(int) (SensorEventType.values().length * Math.random())];
-        String objectId = "" + ((int) (10 * Math.random()));
-        return new SensorEvent(sensorEventType, objectId);
+    public EventGenerator getEventGenerator() { return eventGenerator; }
+
+    public CommandSender getCommandSender() { return commandSender; }
+
+    public EventScenarioChooser getEventScenarioChooser() { return eventScenarioChooser; }
+
+    public static void main(String[] args) {
+        Application application = new Application(
+                new SmartHomeDataInputJSON("smart-home-1.js"),
+                new SmartHomeDataOutputJSON("output.js"),
+                new CommandSenderImpl(),
+                new EventScenarioChooserImpl(),
+                new RandomEventGenerator());
+        RunningCycleApplication runCycleApplication = new RunningCycleApplication(
+                application.getEventGenerator(),
+                application.getEventScenarioChooser(),
+                application.getCommandSender(),
+                application.getSmartHome());
+        runCycleApplication.run();
     }
 }

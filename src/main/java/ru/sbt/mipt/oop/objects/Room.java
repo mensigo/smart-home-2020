@@ -1,5 +1,6 @@
 package ru.sbt.mipt.oop.objects;
 
+import ru.sbt.mipt.oop.eventhandlers.SmartRoomEventHandler;
 import ru.sbt.mipt.oop.events.SensorEvent;
 
 import java.util.Collection;
@@ -15,26 +16,6 @@ public class Room {
         this.name = name;
     }
 
-    public void handleUsualEvent(SensorEvent event) {
-        if (event.isLightUsualEvent()) {
-            // events from Light
-            for (Light light : lights) {
-                if (light.getId().equals(event.getObjectId())) {
-                    light.handleUsualEvent(event, name);
-                }
-            }
-        }
-        if (event.isDoorUsualEvent()) {
-            // events from Door
-            for (Door door : doors) {
-                if (door.getId().equals(event.getObjectId())) {
-                    door.handleUsualEvent(event, name);
-                }
-            }
-        }
-        // add usual events' handlers here
-    }
-
     public Collection<Light> getLights() {
         return lights;
     }
@@ -42,4 +23,9 @@ public class Room {
     public Collection<Door> getDoors() { return doors; }
 
     public String getName() { return name; }
+
+    public void handleUsualEvent(SensorEvent event) {
+        SmartRoomEventHandler smartRoomEventHandler = new SmartRoomEventHandler();
+        smartRoomEventHandler.handleEvent(event, this);
+    }
 }

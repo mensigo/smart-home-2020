@@ -1,7 +1,7 @@
 package ru.sbt.mipt.oop.io;
 
-import ru.sbt.mipt.oop.general.SmartHome;
+import ru.sbt.mipt.oop.objects.SmartHome;
 
 public interface SmartHomeDataOutput {
-    void pushData(SmartHome smartHome) throws Exception;
+    void writeSmartHomeData(SmartHome smartHome);
 }

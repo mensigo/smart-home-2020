@@ -1,33 +1,29 @@
 package ru.sbt.mipt.oop.objects;
 
+import ru.sbt.mipt.oop.eventhandlers.SmartDoorEventHandler;
 import ru.sbt.mipt.oop.events.SensorEvent;
-
-import static ru.sbt.mipt.oop.events.SensorEventType.*;
 
 public class Door {
     private final String id;
     private boolean isOpen;
+    private String placeName;
 
-    public Door(boolean isOpen, String id) {
+    public Door(boolean isOpen, String id, String placeName) {
         this.isOpen = isOpen;
         this.id = id;
-    }
-
-    public void handleUsualEvent(SensorEvent event, String roomName) {
-        if (event.getType() == DOOR_OPEN) {
-            isOpen = true;
-            System.out.println("Door " + id + " in room " + roomName + " was opened.");
-        } else {
-            isOpen = false;
-            System.out.println("Door " + id + " in room " + roomName + " was closed.");
-        }
+        this.placeName = placeName;
     }
 
     public String getId() {
         return id;
     }
 
-    /*public void setOpen(boolean open) {
-        isOpen = open;
-    }*/
+    public String getPlaceName() { return placeName; }
+
+    public void handleUsualEvent(SensorEvent event) {
+        SmartDoorEventHandler smartDoorEventHandler = new SmartDoorEventHandler();
+        smartDoorEventHandler.handleEvent(event, this);
+    }
+
+    public void setOpen(boolean open) { isOpen = open; }
 }
