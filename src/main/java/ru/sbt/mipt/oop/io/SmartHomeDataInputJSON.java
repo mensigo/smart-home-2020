@@ -1,7 +1,7 @@
 package ru.sbt.mipt.oop.io;
 
 import com.google.gson.Gson;
-import ru.sbt.mipt.oop.objects.SmartHome;
+import ru.sbt.mipt.oop.objects.SmartHomeActionable;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,10 +17,10 @@ public class SmartHomeDataInputJSON implements SmartHomeDataInput {
     }
 
     @Override
-    public SmartHome readSmartHomeData() {
+    public SmartHomeActionable readSmartHomeData() {
         try {
             String json = new String(Files.readAllBytes(Paths.get(filePath)));
-            SmartHome smartHomeData = gson.fromJson(json, SmartHome.class);
+            SmartHomeActionable smartHomeData = gson.fromJson(json, SmartHomeActionable.class);
             return smartHomeData;
         } catch (IOException exception) {
             System.out.println("SmartHomeDataInputJSON::readSmartHomeData() can't read SmartHomeData.");

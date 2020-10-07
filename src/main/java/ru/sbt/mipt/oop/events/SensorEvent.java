@@ -1,8 +1,8 @@
 package ru.sbt.mipt.oop.events;
 
-import ru.sbt.mipt.oop.objects.Door;
-import ru.sbt.mipt.oop.objects.Room;
-import ru.sbt.mipt.oop.objects.SmartHome;
+import ru.sbt.mipt.oop.objects.DoorActionable;
+import ru.sbt.mipt.oop.objects.RoomActionable;
+import ru.sbt.mipt.oop.objects.SmartHomeActionable;
 
 import static ru.sbt.mipt.oop.events.SensorEventType.*;
 
@@ -36,15 +36,15 @@ public class SensorEvent {
                 '}';
     }
 
-    public boolean isSendCommandNeedyEvent(SmartHome smartHome) {
+    public boolean isSendCommandNeedyEvent(SmartHomeActionable smartHome) {
         return isDoorClosedInHallSpecialEvent(smartHome);
         // more special events can be added here
     }
 
-    public boolean isDoorClosedInHallSpecialEvent(SmartHome smartHome) {
-        if (type == DOOR_CLOSED) {
-            for (Room room : smartHome.getRooms())
-                for (Door door : room.getDoors()) {
+    public boolean isDoorClosedInHallSpecialEvent(SmartHomeActionable smartHome) {
+        if (type == DOOR_CLOSE) {
+            for (RoomActionable room : smartHome.getRooms())
+                for (DoorActionable door : room.getDoors()) {
                     if (door.getId().equals(objectId) && room.getName().equals("hall")) {
                         return true;
                     }
@@ -57,6 +57,6 @@ public class SensorEvent {
         return (type == LIGHT_ON || type == LIGHT_OFF);
     }  // usual #1
 
-    public boolean isDoorUsualEvent() { return (type == DOOR_OPEN || type == DOOR_CLOSED);  // usual #2
+    public boolean isDoorUsualEvent() { return (type == DOOR_OPEN || type == DOOR_CLOSE);  // usual #2
     }
 }

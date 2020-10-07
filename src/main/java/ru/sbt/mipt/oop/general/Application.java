@@ -9,7 +9,7 @@ import ru.sbt.mipt.oop.io.SmartHomeDataInput;
 import ru.sbt.mipt.oop.io.SmartHomeDataInputJSON;
 import ru.sbt.mipt.oop.io.SmartHomeDataOutput;
 import ru.sbt.mipt.oop.io.SmartHomeDataOutputJSON;
-import ru.sbt.mipt.oop.objects.SmartHome;
+import ru.sbt.mipt.oop.objects.SmartHomeActionable;
 
 public class Application {
     private final SmartHomeDataInput smartHomeDataInput;
@@ -17,7 +17,7 @@ public class Application {
     private final EventGenerator eventGenerator;
     private final CommandSender commandSender;
     private final EventScenarioChooser eventScenarioChooser;
-    private final SmartHome smartHome;
+    private final SmartHomeActionable smartHome;
 
     public Application(SmartHomeDataInput smartHomeDataInput,
                        SmartHomeDataOutput smartHomeDataOutput,
@@ -32,7 +32,7 @@ public class Application {
         this.eventGenerator = eventGenerator;;
     }
 
-    public SmartHome getSmartHome() { return smartHome; }
+    public SmartHomeActionable getSmartHome() { return smartHome; }
 
     public EventGenerator getEventGenerator() { return eventGenerator; }
 

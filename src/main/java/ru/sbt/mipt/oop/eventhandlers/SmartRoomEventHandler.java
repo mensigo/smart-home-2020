@@ -1,22 +1,22 @@
 package ru.sbt.mipt.oop.eventhandlers;
 
 import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.objects.Door;
-import ru.sbt.mipt.oop.objects.Light;
-import ru.sbt.mipt.oop.objects.Room;
+import ru.sbt.mipt.oop.objects.DoorActionable;
+import ru.sbt.mipt.oop.objects.LightActionable;
+import ru.sbt.mipt.oop.objects.RoomActionable;
 
 public class SmartRoomEventHandler implements SmartObjectEventHandler {
 
     @Override
     public void handleEvent(SensorEvent event, Object object) {
-        if (!(object instanceof Room)) {
-            throw new RuntimeException("SmartRoomEventHandler::handleEvent(..) param @object is not instanceof Room.");
+        if (!(object instanceof RoomActionable)) {
+            throw new RuntimeException("SmartRoomEventHandler::handleEvent(..) param @object is not instanceof RoomActionable.");
         }
-        Room room = (Room) object;
+        RoomActionable room = (RoomActionable) object;
         if (event.isLightUsualEvent()) {
-            // events from Light
+            // events from LightActionable
             boolean existObject = false;
-            for (Light light : room.getLights()) {
+            for (LightActionable light : room.getLights()) {
                 if (light.getId().equals(event.getObjectId())) {
                     light.handleUsualEvent(event);
                     existObject = true;
@@ -28,9 +28,9 @@ public class SmartRoomEventHandler implements SmartObjectEventHandler {
             }
         }
         if (event.isDoorUsualEvent()) {
-            // events from Door
+            // events from DoorActionable
             boolean existObject = false;
-            for (Door door : room.getDoors()) {
+            for (DoorActionable door : room.getDoors()) {
                 if (door.getId().equals(event.getObjectId())) {
                     door.handleUsualEvent(event);
                     existObject = true;

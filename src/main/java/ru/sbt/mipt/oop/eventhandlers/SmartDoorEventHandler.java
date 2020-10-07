@@ -1,7 +1,9 @@
 package ru.sbt.mipt.oop.eventhandlers;
 
+import ru.sbt.mipt.oop.actions.CloseDoorAction;
+import ru.sbt.mipt.oop.actions.OpenDoorAction;
 import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.objects.Door;
+import ru.sbt.mipt.oop.objects.DoorActionable;
 
 import static ru.sbt.mipt.oop.events.SensorEventType.DOOR_OPEN;
 
@@ -9,17 +11,17 @@ public class SmartDoorEventHandler implements SmartObjectEventHandler {
 
     @Override
     public void handleEvent(SensorEvent event, Object object) {
-        if (!(object instanceof Door)) {
-            throw new RuntimeException("SmartDoorEventHandler::handleEvent(..) param @object is not instanceof Door.");
+        if (!(object instanceof DoorActionable)) {
+            throw new RuntimeException("SmartDoorEventHandler::handleEvent(..) param @object is not instanceof DoorActionable.");
         }
-        Door door = ((Door) object);
+        DoorActionable door = ((DoorActionable) object);
         if (event.getType() == DOOR_OPEN) {
-            door.setOpen(true);
+            door.execute(new OpenDoorAction());
             if (!event.getQueit()) {
                 System.out.println("Door " + door.getId() + " in room " + door.getPlaceName() + " was opened.");
             }
         } else {
-            door.setOpen(false);
+            door.execute(new CloseDoorAction());
             if (!event.getQueit()) {
                 System.out.println("Door " + door.getId() + " in room " + door.getPlaceName() + " was closed.");
             }

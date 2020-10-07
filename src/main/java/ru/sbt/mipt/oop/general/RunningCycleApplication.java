@@ -4,18 +4,18 @@ import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.events.EventGenerator;
 import ru.sbt.mipt.oop.eventhandlers.EventScenarioChooser;
 import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.objects.SmartHome;
+import ru.sbt.mipt.oop.objects.SmartHomeActionable;
 
 public class RunningCycleApplication {
     private final EventGenerator eventGenerator;
     private final EventScenarioChooser eventScenarioChooser;
     private final CommandSender commandSender;
-    private final SmartHome smartHome;
+    private final SmartHomeActionable smartHome;
 
     public RunningCycleApplication(EventGenerator eventGenerator,
                                    EventScenarioChooser eventScenarioChooser,
                                    CommandSender commandSender,
-                                   SmartHome smartHome) {
+                                   SmartHomeActionable smartHome) {
         this.eventGenerator = eventGenerator;
         this.eventScenarioChooser = eventScenarioChooser;
         this.commandSender = commandSender;
