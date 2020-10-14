@@ -1,45 +1,50 @@
 package ru.sbt.mipt.oop.general;
 
 import ru.sbt.mipt.oop.io.SmartHomeDataOutput;
-import ru.sbt.mipt.oop.io.SmartHomeDataOutputJSON;
-import ru.sbt.mipt.oop.objects.DoorActionable;
-import ru.sbt.mipt.oop.objects.LightActionable;
-import ru.sbt.mipt.oop.objects.RoomActionable;
-import ru.sbt.mipt.oop.objects.SmartHomeActionable;
+import ru.sbt.mipt.oop.io.JSONSmartHomeDataOutput;
+import ru.sbt.mipt.oop.objects.Door;
+import ru.sbt.mipt.oop.objects.Light;
+import ru.sbt.mipt.oop.objects.Room;
+import ru.sbt.mipt.oop.objects.SmartHome;
+import ru.sbt.mipt.oop.signalisation.DeactivatedSignalState;
+import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class HomeBuilder {
 
     public static void main(String[] args) {
-        RoomActionable kitchen = new RoomActionable(
+        Room kitchen = new Room(
                 Arrays.asList(
-                        new LightActionable("1", false, "kitchen"),
-                        new LightActionable("2", true, "kitchen")),
-                Arrays.asList(new DoorActionable(false, "1", "kitchen")),
+                        new Light("1", false),
+                        new Light("2", true)
+                ),
+                Collections.singletonList(new Door(false, "1")),
                 "kitchen"
         );
-        RoomActionable bathroom = new RoomActionable(
-                Arrays.asList(new LightActionable("3", true, "bathroom")),
-                Arrays.asList(new DoorActionable(false, "2", "bathroom")),
+        Room bathroom = new Room(
+                Collections.singletonList(new Light("3", true)),
+                Collections.singletonList(new Door(false, "2")),
                 "bathroom");
-        RoomActionable bedroom = new RoomActionable(
+        Room bedroom = new Room(
                 Arrays.asList(
-                        new LightActionable("4", false, "bedroom"),
-                        new LightActionable("5", false, "bedroom"),
-                        new LightActionable("6", false, "bedroom")),
-                Arrays.asList(
-                        new DoorActionable(true, "3", "bedroom")),
+                        new Light("4", false),
+                        new Light("5", false),
+                        new Light("6", false)),
+                Collections.singletonList(
+                        new Door(true, "3")),
                 "bedroom");
-        RoomActionable hall = new RoomActionable(
+        Room hall = new Room(
                 Arrays.asList(
-                        new LightActionable("7", false, "hall"),
-                        new LightActionable("8", false, "hall"),
-                        new LightActionable("9", false, "hall")),
-                Arrays.asList(new DoorActionable(false, "4", "hall")),
+                        new Light("7", false),
+                        new Light("8", false),
+                        new Light("9", false)),
+                Collections.singletonList(new Door(true, "4")),
                 "hall");
-        SmartHomeActionable smartHome = new SmartHomeActionable(Arrays.asList(kitchen, bathroom, bedroom, hall));
-        SmartHomeDataOutput smartHomeOutput = new SmartHomeDataOutputJSON("output.js");
+        SignalisationImpl signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
+        SmartHome smartHome = new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall), signalisation);
+        SmartHomeDataOutput smartHomeOutput = new JSONSmartHomeDataOutput("output.js");
         smartHomeOutput.writeSmartHomeData(smartHome);
     }
 }

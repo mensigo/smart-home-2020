@@ -1,24 +1,20 @@
 package ru.sbt.mipt.oop.general;
 
-import ru.sbt.mipt.oop.commands.CommandSender;
-import ru.sbt.mipt.oop.events.EventGenerator;
-import ru.sbt.mipt.oop.eventhandlers.EventScenarioChooser;
 import ru.sbt.mipt.oop.events.SensorEvent;
-import ru.sbt.mipt.oop.objects.SmartHomeActionable;
+import ru.sbt.mipt.oop.events.eventgenerators.EventGenerator;
+import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerChooser;
+import ru.sbt.mipt.oop.objects.SmartHome;
 
 public class RunningCycleApplication {
     private final EventGenerator eventGenerator;
-    private final EventScenarioChooser eventScenarioChooser;
-    private final CommandSender commandSender;
-    private final SmartHomeActionable smartHome;
+    private final EventHandlerChooser eventScenarioChooser;
+    private final SmartHome smartHome;
 
     public RunningCycleApplication(EventGenerator eventGenerator,
-                                   EventScenarioChooser eventScenarioChooser,
-                                   CommandSender commandSender,
-                                   SmartHomeActionable smartHome) {
+                                   EventHandlerChooser eventScenarioChooser,
+                                   SmartHome smartHome) {
         this.eventGenerator = eventGenerator;
         this.eventScenarioChooser = eventScenarioChooser;
-        this.commandSender = commandSender;
         this.smartHome = smartHome;
     }
 
@@ -26,10 +22,7 @@ public class RunningCycleApplication {
         SensorEvent event = eventGenerator.provideNextEvent();
         while (event != null) {
             System.out.println("Got event: " + event);
-            eventScenarioChooser.chooseAndImplementScenario(
-                    event,
-                    smartHome,
-                    commandSender);
+            eventScenarioChooser.chooseAndRunHandler(event, smartHome);
             event = eventGenerator.provideNextEvent();
         }
     }

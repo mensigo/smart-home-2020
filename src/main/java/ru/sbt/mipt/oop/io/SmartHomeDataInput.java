@@ -1,7 +1,7 @@
 package ru.sbt.mipt.oop.io;
 
-import ru.sbt.mipt.oop.objects.SmartHomeActionable;
+import ru.sbt.mipt.oop.objects.SmartHome;
 
 public interface SmartHomeDataInput {
-    SmartHomeActionable readSmartHomeData();
+    SmartHome readSmartHomeData();
 }
