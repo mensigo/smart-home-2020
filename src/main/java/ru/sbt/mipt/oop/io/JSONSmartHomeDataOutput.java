@@ -10,13 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SmartHomeDataOutputJSON implements SmartHomeDataOutput {
+public class JSONSmartHomeDataOutput implements SmartHomeDataOutput {
     private final String filePath;
     private final Gson gson;
 
-    public SmartHomeDataOutputJSON(String path) {
+    public JSONSmartHomeDataOutput(String path) {
         filePath = path;
-        gson = new GsonBuilder().setPrettyPrinting().create();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gson = gsonBuilder.setPrettyPrinting().create();
     }
 
     @Override

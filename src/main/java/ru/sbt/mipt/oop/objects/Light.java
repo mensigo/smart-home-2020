@@ -1,17 +1,15 @@
 package ru.sbt.mipt.oop.objects;
 
-import ru.sbt.mipt.oop.eventhandlers.SmartLightEventHandler;
-import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.actions.Action;
 
-public class Light {
+public class Light implements Actionable {
     private boolean isOn;
     private final String id;
     private String placeName;
 
-    public Light(String id, boolean isOn, String placeName) {
+    public Light(String id, boolean isOn) {
         this.id = id;
         this.isOn = isOn;
-        this.placeName = placeName;
     }
 
     public String getId() {
@@ -20,10 +18,18 @@ public class Light {
 
     public String getPlaceName() { return placeName; }
 
-    public void handleUsualEvent(SensorEvent event) {
-        SmartLightEventHandler smartLightEventHandler = new SmartLightEventHandler();
-        smartLightEventHandler.handleEvent(event, this);
+    public boolean isOn() { return isOn; }
+
+    // used in Room
+    public void  setPlaceName(String placeName) {
+        this.placeName = placeName;
     }
 
+    // used in Actions
     public void setOn(boolean on) { isOn = on; }
+
+    @Override
+    public void execute(Action action) {
+        action.act(this);
+    }
 }

@@ -1,17 +1,15 @@
 package ru.sbt.mipt.oop.objects;
 
-import ru.sbt.mipt.oop.eventhandlers.SmartDoorEventHandler;
-import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.actions.Action;
 
-public class Door {
+public class Door implements Actionable {
     private final String id;
     private boolean isOpen;
     private String placeName;
 
-    public Door(boolean isOpen, String id, String placeName) {
+    public Door(boolean isOpen, String id) {
         this.isOpen = isOpen;
         this.id = id;
-        this.placeName = placeName;
     }
 
     public String getId() {
@@ -20,10 +18,18 @@ public class Door {
 
     public String getPlaceName() { return placeName; }
 
-    public void handleUsualEvent(SensorEvent event) {
-        SmartDoorEventHandler smartDoorEventHandler = new SmartDoorEventHandler();
-        smartDoorEventHandler.handleEvent(event, this);
+    public boolean isOpen() { return isOpen; }
+
+    // used in Room
+    public void  setPlaceName(String placeName) {
+        this.placeName = placeName;
     }
 
+    // used in Actions
     public void setOpen(boolean open) { isOpen = open; }
+
+    @Override
+    public void execute(Action action) {
+        action.act(this);
+    }
 }

@@ -1,31 +1,41 @@
 package ru.sbt.mipt.oop.objects;
 
-import ru.sbt.mipt.oop.eventhandlers.SmartRoomEventHandler;
-import ru.sbt.mipt.oop.events.SensorEvent;
+import ru.sbt.mipt.oop.actions.Action;
 
 import java.util.Collection;
 
-public class Room {
-    private Collection<Light> lights;
-    private Collection<Door> doors;
+public class Room implements Actionable {
+    private final Collection<Light> lights;
+    private final Collection<Door> doors;
     private String name;
 
     public Room(Collection<Light> lights, Collection<Door> doors, String name) {
         this.lights = lights;
         this.doors = doors;
-        this.name = name;
+        setName(name);
     }
-
-    public Collection<Light> getLights() {
-        return lights;
-    }
-
-    public Collection<Door> getDoors() { return doors; }
 
     public String getName() { return name; }
 
-    public void handleUsualEvent(SensorEvent event) {
-        SmartRoomEventHandler smartRoomEventHandler = new SmartRoomEventHandler();
-        smartRoomEventHandler.handleEvent(event, this);
+    @Override
+    public void execute(Action action) {
+        action.act(this);
+        for (Light light : lights) {
+            light.execute(action);
+        }
+        for (Door door : doors) {
+            door.execute(action);
+        }
+    }
+
+    // used to give Room.name to all objects inside when building SmartHome
+    private void setName(String name) {
+        this.name = name;
+        for (Light light : lights) {
+            light.setPlaceName(name);
+        }
+        for (Door door : doors) {
+            door.setPlaceName(name);
+        }
     }
 }
