@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop.events;
 
 import static ru.sbt.mipt.oop.events.SensorEventType.*;
 
-// EventHandlerChooserImpl knows every event type and chooses accordingly (without event grouping).
+// EventHandlerRunnerImpl knows every event type and chooses accordingly (without event grouping).
 @Deprecated
 public class SensorEventTypeIndicators {
 

@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop.events.decorators;
 
 import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SignalisationSensorEvent;
-import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerChooser;
+import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunner;
 import ru.sbt.mipt.oop.objects.SmartHome;
 import ru.sbt.mipt.oop.signalisation.ActivatedSignalState;
 import ru.sbt.mipt.oop.signalisation.AlarmedSignalState;
@@ -12,12 +12,12 @@ import ru.sbt.mipt.oop.signalisation.Signalisation;
 public class SignalisationEventChooserDecorator extends EventChooserDecorator {
     private boolean isSend;
 
-    public SignalisationEventChooserDecorator(EventHandlerChooser eventScenarioChooser) {
+    public SignalisationEventChooserDecorator(EventHandlerRunner eventScenarioChooser) {
         super(eventScenarioChooser);
     }
 
     @Override
-    public void chooseAndRunHandler(SensorEvent event, SmartHome smartHome) {
+    public void runHandlers(SensorEvent event, SmartHome smartHome) {
         if (!(event instanceof SignalisationSensorEvent)) {
             // simple sensor event
             Signalisation signalisation = smartHome.getSignalisation();
@@ -27,11 +27,11 @@ public class SignalisationEventChooserDecorator extends EventChooserDecorator {
                 signalisation.alarm();
                 sendSMS(event);
             } else {
-                super.chooseAndRunHandler(event, smartHome);
+                super.runHandlers(event, smartHome);
             }
         } else {
             // signalisation event
-            super.chooseAndRunHandler(event, smartHome);
+            super.runHandlers(event, smartHome);
             if (smartHome.getSignalisation().getState().equals(DeactivatedSignalState.stateName)) {
                 // reset signalisation
                 setSend(false);

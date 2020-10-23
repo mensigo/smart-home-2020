@@ -3,12 +3,12 @@ package ru.sbt.mipt.oop.actions;
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.objects.Light;
 
-public class LightOnAction implements Action {
+public class LightOnByIdAction implements Action {
     private final String objectId;
     private final CommandSender commandSender;
     private final boolean isQuiet;
 
-    public LightOnAction(String objectId, boolean isQuiet, CommandSender commandSender) {
+    public LightOnByIdAction(String objectId, boolean isQuiet, CommandSender commandSender) {
         this.objectId = objectId;
         this.commandSender = commandSender;
         this.isQuiet = isQuiet;
