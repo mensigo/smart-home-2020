@@ -22,7 +22,6 @@ public class DoorCloseByIdAction implements Action {
         Door door = (Door) object;
         if (door.getId().equals(objectId)) {
             if (door.isOpen()) {
-                // usual door closing
                 door.setOpen(false);
                 if (!isQuiet) {
                     System.out.println("Door " + door.getId() + " in place " + door.getPlaceName() + " has been closed.");

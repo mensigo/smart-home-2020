@@ -11,7 +11,7 @@ public class AlarmActivateEventHandler implements EventHandler {
 
     @Override
     public void handleEvent(SensorEvent event, SmartHome smartHome) {
-        if (event instanceof SignalisationSensorEvent & event.getType().equals(ALARM_ACTIVATE)) {
+        if (event instanceof SignalisationSensorEvent && event.getType().equals(ALARM_ACTIVATE)) {
             SignalisationSensorEvent signalEvent = (SignalisationSensorEvent) event;
             Signalisation signalisation = smartHome.getSignalisation();
             signalisation.activate(signalEvent.getEnteredCode());

@@ -1,9 +1,10 @@
 package ru.sbt.mipt.oop.actions;
 
 import ru.sbt.mipt.oop.commands.CommandSender;
-
 import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.SmartHome;
+
+import static ru.sbt.mipt.oop.commands.SensorCommandType.LIGHT_OFF;
 
 public class DoorCloseInHallAction implements Action {
     private final String objectId;
@@ -27,7 +28,8 @@ public class DoorCloseInHallAction implements Action {
             Door door = ((Door) object);
             if (door.getId().equals(objectId) && door.isOpen()
                     && door.getPlaceName().equalsIgnoreCase("hall")) {
-                smartHome.execute(new LightOffSendCmdAction(isQuiet, commandSender));
+                smartHome.execute(new LightOffAction(isQuiet, commandSender));
+                smartHome.execute(new LightSendCmdAction(LIGHT_OFF, commandSender));
             }
         }
     }
