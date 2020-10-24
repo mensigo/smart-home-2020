@@ -21,11 +21,7 @@ import static ru.sbt.mipt.oop.events.SensorEventType.*;
 public class DoorCloseEventHandlerTest {
 
     @Test
-<<<<<<< HEAD
-    void tryToCloseDoorSucceedWhenDoorIsNotInHallAndIsOpened() {
-=======
     void tryToCloseDoorSucceedWhenDoorIsOpened() {
->>>>>>> hometask-2
         // given
         String roomName = "bathroom";
         List<Light> lights= Arrays.asList(
@@ -48,11 +44,7 @@ public class DoorCloseEventHandlerTest {
     }
 
     @Test
-<<<<<<< HEAD
-    void tryToCloseDoorDoNothingWhenDoorIsNotInHallAndIsClosed() {
-=======
     void tryToCloseDoorDoNothingWhenDoorIsClosed() {
->>>>>>> hometask-2
         // given
         String roomName = "bathroom";
         List<Light> lights= Arrays.asList(
@@ -73,49 +65,4 @@ public class DoorCloseEventHandlerTest {
         boolean expectedIsOpened = false;
         assertEquals(expectedIsOpened, doors.get(0).isOpen());
     }
-<<<<<<< HEAD
-
-    @Test
-    void tryToCloseDoorSucceedAndSendCommandsToTurnOffAllLightsWhenDoorIsInHallAndIsOpened() {
-        // given
-        String roomName = "hall";
-        List<Light> lights= Arrays.asList(
-                new Light("1", false),
-                new Light("2", true));
-        List<Door> doors = Collections.singletonList(new Door(true, "1"));
-        Room bathroom = new Room(lights, doors, roomName);
-        List<Room> rooms = Collections.singletonList(bathroom);
-        SmartHome smartHome = new SmartHome(rooms);
-        SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "1", false);
-        CommandSender commandSender = new CommandSenderImpl();
-        EventHandler smartDoorEventHandler = new DoorCloseEventHandler(commandSender);
-        // when
-        smartDoorEventHandler.handleEvent(event, smartHome);
-        // then
-        boolean expectedIsOpened = false;
-        assertEquals(expectedIsOpened, doors.get(0).isOpen());
-    }
-
-    @Test
-    void tryToCloseDoorDoNothingWhenDoorIsInHallAndIsClosed() {
-        // given
-        String roomName = "hall";
-        List<Light> lights= Arrays.asList(
-                new Light("1", false),
-                new Light("2", true));
-        List<Door> doors = Collections.singletonList(new Door(false, "1"));
-        Room bathroom = new Room(lights, doors, roomName);
-        List<Room> rooms = Collections.singletonList(bathroom);
-        SmartHome smartHome = new SmartHome(rooms);
-        SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "1", false);
-        CommandSender commandSender = new CommandSenderImpl();
-        EventHandler smartDoorEventHandler = new DoorCloseEventHandler(commandSender);
-        // when
-        smartDoorEventHandler.handleEvent(event, smartHome);
-        // then
-        boolean expectedIsOpened = false;
-        assertEquals(expectedIsOpened, doors.get(0).isOpen());
-    }
-=======
->>>>>>> hometask-2
 }
