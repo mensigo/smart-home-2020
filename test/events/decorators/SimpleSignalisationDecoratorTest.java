@@ -6,8 +6,13 @@ import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SignalisationSensorEvent;
 import ru.sbt.mipt.oop.events.SimpleSensorEvent;
 import ru.sbt.mipt.oop.events.decorators.SignalisationEventChooserDecorator;
+<<<<<<< HEAD
 import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerChooser;
 import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerChooserImpl;
+=======
+import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunner;
+import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunnerImpl;
+>>>>>>> hometask-2
 import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
@@ -37,10 +42,17 @@ public class SimpleSignalisationDecoratorTest {
         SignalisationImpl signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SimpleSensorEvent(LIGHT_ON, "1", false);
+<<<<<<< HEAD
         EventHandlerChooser eventHandlerChooser = new EventHandlerChooserImpl(new CommandSenderImpl());
         EventHandlerChooser decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
         // when
         decoratedEventHandlerChooser.chooseAndRunHandler(event, smartHome);
+=======
+        EventHandlerRunner eventHandlerChooser = new EventHandlerRunnerImpl(new CommandSenderImpl());
+        EventHandlerRunner decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
+        // when
+        decoratedEventHandlerChooser.runHandlers(event, smartHome);
+>>>>>>> hometask-2
         // then
         boolean expectedObjectState = true;
         String expectedSignalisationState = DeactivatedSignalState.stateName;
@@ -62,10 +74,17 @@ public class SimpleSignalisationDecoratorTest {
         SignalisationImpl signalisation = new SignalisationImpl("0000", ActivatedSignalState.stateName);
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SimpleSensorEvent(LIGHT_ON, "1", false);
+<<<<<<< HEAD
         EventHandlerChooser eventHandlerChooser = new EventHandlerChooserImpl(new CommandSenderImpl());
         EventHandlerChooser decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
         // when
         decoratedEventHandlerChooser.chooseAndRunHandler(event, smartHome);
+=======
+        EventHandlerRunner eventHandlerChooser = new EventHandlerRunnerImpl(new CommandSenderImpl());
+        EventHandlerRunner decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
+        // when
+        decoratedEventHandlerChooser.runHandlers(event, smartHome);
+>>>>>>> hometask-2
         // then
         boolean expectedObjectState = false;
         String expectedSignalisationState = AlarmedSignalState.stateName;
@@ -87,10 +106,17 @@ public class SimpleSignalisationDecoratorTest {
         SignalisationImpl signalisation = new SignalisationImpl("0000", AlarmedSignalState.stateName);
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SimpleSensorEvent(LIGHT_ON, "1", false);
+<<<<<<< HEAD
         EventHandlerChooser eventHandlerChooser = new EventHandlerChooserImpl(new CommandSenderImpl());
         EventHandlerChooser decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
         // when
         decoratedEventHandlerChooser.chooseAndRunHandler(event, smartHome);
+=======
+        EventHandlerRunner eventHandlerChooser = new EventHandlerRunnerImpl(new CommandSenderImpl());
+        EventHandlerRunner decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
+        // when
+        decoratedEventHandlerChooser.runHandlers(event, smartHome);
+>>>>>>> hometask-2
         // then
         boolean expectedObjectState = false;
         String expectedSignalisationState = AlarmedSignalState.stateName;
@@ -112,15 +138,26 @@ public class SimpleSignalisationDecoratorTest {
         SignalisationImpl signalisation = new SignalisationImpl("0000", ActivatedSignalState.stateName);
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_ACTIVATE, "1234");
+<<<<<<< HEAD
         EventHandlerChooser eventHandlerChooser = new EventHandlerChooserImpl(new CommandSenderImpl());
         EventHandlerChooser decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
         // when
         decoratedEventHandlerChooser.chooseAndRunHandler(event, smartHome);
+=======
+        EventHandlerRunner eventHandlerChooser = new EventHandlerRunnerImpl(new CommandSenderImpl());
+        EventHandlerRunner decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
+        // when
+        decoratedEventHandlerChooser.runHandlers(event, smartHome);
+>>>>>>> hometask-2
         // then
         boolean expectedObjectState = false;
         String expectedSignalisationState = ActivatedSignalState.stateName;
         assertEquals(expectedObjectState, lights.get(0).isOn());
+<<<<<<< HEAD
         assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState());
+=======
+//        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState());
+>>>>>>> hometask-2
     }
 
     @Test
@@ -137,15 +174,26 @@ public class SimpleSignalisationDecoratorTest {
         SignalisationImpl signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_ACTIVATE, "1234");
+<<<<<<< HEAD
         EventHandlerChooser eventHandlerChooser = new EventHandlerChooserImpl(new CommandSenderImpl());
         EventHandlerChooser decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
         // when
         decoratedEventHandlerChooser.chooseAndRunHandler(event, smartHome);
+=======
+        EventHandlerRunner eventHandlerChooser = new EventHandlerRunnerImpl(new CommandSenderImpl());
+        EventHandlerRunner decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
+        // when
+        decoratedEventHandlerChooser.runHandlers(event, smartHome);
+>>>>>>> hometask-2
         // then
         boolean expectedObjectState = false;
         String expectedSignalisationState = ActivatedSignalState.stateName;
         assertEquals(expectedObjectState, lights.get(0).isOn());
+<<<<<<< HEAD
         assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState());
+=======
+//        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState());
+>>>>>>> hometask-2
     }
 
     @Test
@@ -162,10 +210,17 @@ public class SimpleSignalisationDecoratorTest {
         SignalisationImpl signalisation = new SignalisationImpl("0000", AlarmedSignalState.stateName);
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_ACTIVATE, "1234");
+<<<<<<< HEAD
         EventHandlerChooser eventHandlerChooser = new EventHandlerChooserImpl(new CommandSenderImpl());
         EventHandlerChooser decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
         // when
         decoratedEventHandlerChooser.chooseAndRunHandler(event, smartHome);
+=======
+        EventHandlerRunner eventHandlerChooser = new EventHandlerRunnerImpl(new CommandSenderImpl());
+        EventHandlerRunner decoratedEventHandlerChooser = new SignalisationEventChooserDecorator(eventHandlerChooser);
+        // when
+        decoratedEventHandlerChooser.runHandlers(event, smartHome);
+>>>>>>> hometask-2
         // then
         boolean expectedObjectState = false;
         String expectedSignalisationState = AlarmedSignalState.stateName;

@@ -1,7 +1,10 @@
 package ru.sbt.mipt.oop.signalisation;
 
 public interface Signalisation {
+<<<<<<< HEAD
 
+=======
+>>>>>>> hometask-2
     String getState();
 
     void setState(String stateName);

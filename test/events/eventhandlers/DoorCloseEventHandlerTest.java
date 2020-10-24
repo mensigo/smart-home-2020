@@ -21,7 +21,11 @@ import static ru.sbt.mipt.oop.events.SensorEventType.*;
 public class DoorCloseEventHandlerTest {
 
     @Test
+<<<<<<< HEAD
     void tryToCloseDoorSucceedWhenDoorIsNotInHallAndIsOpened() {
+=======
+    void tryToCloseDoorSucceedWhenDoorIsOpened() {
+>>>>>>> hometask-2
         // given
         String roomName = "bathroom";
         List<Light> lights= Arrays.asList(
@@ -44,7 +48,11 @@ public class DoorCloseEventHandlerTest {
     }
 
     @Test
+<<<<<<< HEAD
     void tryToCloseDoorDoNothingWhenDoorIsNotInHallAndIsClosed() {
+=======
+    void tryToCloseDoorDoNothingWhenDoorIsClosed() {
+>>>>>>> hometask-2
         // given
         String roomName = "bathroom";
         List<Light> lights= Arrays.asList(
@@ -65,6 +73,7 @@ public class DoorCloseEventHandlerTest {
         boolean expectedIsOpened = false;
         assertEquals(expectedIsOpened, doors.get(0).isOpen());
     }
+<<<<<<< HEAD
 
     @Test
     void tryToCloseDoorSucceedAndSendCommandsToTurnOffAllLightsWhenDoorIsInHallAndIsOpened() {
@@ -107,4 +116,6 @@ public class DoorCloseEventHandlerTest {
         boolean expectedIsOpened = false;
         assertEquals(expectedIsOpened, doors.get(0).isOpen());
     }
+=======
+>>>>>>> hometask-2
 }

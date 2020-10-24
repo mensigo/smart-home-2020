@@ -7,8 +7,12 @@ import ru.sbt.mipt.oop.events.SimpleSensorEvent;
 
 import java.util.Arrays;
 
+<<<<<<< HEAD
 import static ru.sbt.mipt.oop.events.SensorEventType.ALARM_ACTIVATE;
 import static ru.sbt.mipt.oop.events.SensorEventType.ALARM_DEACTIVATE;
+=======
+import static ru.sbt.mipt.oop.events.SensorEventType.*;
+>>>>>>> hometask-2
 
 public class RandomEventGenerator implements EventGenerator {
 
