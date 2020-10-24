@@ -17,7 +17,7 @@ public class DoorCloseInHallEventHandler implements EventHandler {
 
     @Override
     public void handleEvent(SensorEvent event, SmartHome smartHome) {
-        if (event instanceof SimpleSensorEvent & event.getType().equals(DOOR_CLOSE)) {
+        if (event instanceof SimpleSensorEvent && event.getType().equals(DOOR_CLOSE)) {
             smartHome.execute(new DoorCloseInHallAction(event.getObjectId(), event.isQuiet(), commandSender));
         }
     }
