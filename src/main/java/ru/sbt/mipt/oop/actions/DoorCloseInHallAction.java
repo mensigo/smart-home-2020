@@ -24,7 +24,8 @@ public class DoorCloseInHallAction implements Action {
         }
         if (object instanceof Door) {
             Door door = ((Door) object);
-            if (door.getId().equals(objectId) && door.getPlaceName().equalsIgnoreCase("hall")) {
+            if (door.getId().equals(objectId) && door.isOpen()
+                    && door.getPlaceName().equalsIgnoreCase("hall")) {
                 smartHome.execute(new LightOffSendCmdAction(isQuiet, commandSender));
             }
         }

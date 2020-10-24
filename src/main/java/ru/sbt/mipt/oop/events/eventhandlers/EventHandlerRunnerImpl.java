@@ -30,7 +30,8 @@ public class EventHandlerRunnerImpl implements EventHandlerRunner {
                 new LightOnEventHandler(commandSender),
                 new LightOffEventHandler(commandSender),
                 new DoorOpenEventHandler(commandSender),
-                new DoorCloseEventHandler(commandSender)
+                new DoorCloseEventHandler(commandSender),
+                new DoorCloseInHallEventHandler(commandSender)
                 // more eventHandlers can be added here
         );
     }
