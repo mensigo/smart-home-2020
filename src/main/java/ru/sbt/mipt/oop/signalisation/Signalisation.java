@@ -1,7 +1,6 @@
 package ru.sbt.mipt.oop.signalisation;
 
 public interface Signalisation {
-
     String getState();
 
     void setState(String stateName);

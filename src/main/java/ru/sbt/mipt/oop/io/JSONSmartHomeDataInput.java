@@ -14,8 +14,7 @@ public class JSONSmartHomeDataInput implements SmartHomeDataInput {
 
     public JSONSmartHomeDataInput(String path) {
         filePath = path;
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.create();
+        gson = new GsonBuilder().create();
     }
 
     @Override
