@@ -1,9 +1,6 @@
 package signalisation.signalisationimpl;
 
 import org.junit.jupiter.api.Test;
-import ru.sbt.mipt.oop.signalisation.ActivatedSignalState;
-import ru.sbt.mipt.oop.signalisation.AlarmedSignalState;
-import ru.sbt.mipt.oop.signalisation.DeactivatedSignalState;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,8 +10,8 @@ public class ActivateTest {
     @Test
     void tryToActivateSignalisationThrowNullPointerExceptionWhenItIsActivatedAndEnteredCodeIsNull() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, ActivatedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
+        signalisation.activate("0000");
         // when&then
         String enteredCode = null;
         assertThrows(NullPointerException.class, () -> signalisation.activate(enteredCode));
@@ -23,8 +20,7 @@ public class ActivateTest {
     @Test
     void tryToActivateSignalisationThrowNullPointerExceptionWhenItIsDeactivatedAndEnteredCodeIsNull() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, DeactivatedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
         // when&then
         String enteredCode = null;
         assertThrows(NullPointerException.class, () -> signalisation.activate(enteredCode));
@@ -33,8 +29,8 @@ public class ActivateTest {
     @Test
     void tryToActivateSignalisationThrowNullPointerExceptionWhenItIsAlarmedAndEnteredCodeIsNull() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, AlarmedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
+        signalisation.alarm();
         // when&then
         String enteredCode = null;
         assertThrows(NullPointerException.class, () -> signalisation.activate(enteredCode));
@@ -43,45 +39,48 @@ public class ActivateTest {
     @Test
     void tryToActivateSignalisationDoNothingWhenItIsActivated() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, ActivatedSignalState.stateName);
+        String accessCode = "0000";
+        SignalisationImpl signalisation = new SignalisationImpl();
+        signalisation.activate(accessCode);
         // when
-        String enteredCode = "0000";
+        String enteredCode = "1234";
         signalisation.activate(enteredCode);
         // then
-        String expectedState = ActivatedSignalState.stateName;
+        String expectedState = "Activated";
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState());
+        assertEquals(expectedState, signalisation.getState().getName());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 
     @Test
     void tryToActivateSignalisationSucceedAndSetNewAccessCodeWhenItIsDeactivated() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, DeactivatedSignalState.stateName);
+        String accessCode = "0000";
+        SignalisationImpl signalisation = new SignalisationImpl();
         // when
-        String enteredCode = "0000";
+        String enteredCode = "1234";
         signalisation.activate(enteredCode);
         // then
-        String expectedState = ActivatedSignalState.stateName;
+        String expectedState = "Activated";
         String expectedAccessCode = enteredCode;
-        assertEquals(expectedState, signalisation.getState());
+        assertEquals(expectedState, signalisation.getState().getName());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 
     @Test
     void tryToActivateSignalisationDoNothingWhenItIsAlarmed() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, AlarmedSignalState.stateName);
+        String accessCode = "0000";
+        SignalisationImpl signalisation = new SignalisationImpl();
+        signalisation.activate(accessCode);
+        signalisation.alarm();
         // when
-        String enteredCode = "0000";
+        String enteredCode = "1234";
         signalisation.activate(enteredCode);
         // then
-        String expectedState = AlarmedSignalState.stateName;
+        String expectedState = "Alarmed";
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState());
+        assertEquals(expectedState, signalisation.getState().getName());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 }

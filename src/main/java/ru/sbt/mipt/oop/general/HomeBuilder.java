@@ -6,7 +6,6 @@ import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
 import ru.sbt.mipt.oop.objects.SmartHome;
-import ru.sbt.mipt.oop.signalisation.DeactivatedSignalState;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.Arrays;
@@ -15,6 +14,12 @@ import java.util.Collections;
 public class HomeBuilder {
 
     public static void main(String[] args) {
+        SmartHome smartHome = buildSampleSmartHome();
+        SmartHomeDataOutput smartHomeOutput = new JSONSmartHomeDataOutput("output.js");
+        smartHomeOutput.writeSmartHomeData(smartHome);
+    }
+
+    public static SmartHome buildSampleSmartHome() {
         Room kitchen = new Room(
                 Arrays.asList(
                         new Light("1", false),
@@ -42,9 +47,7 @@ public class HomeBuilder {
                         new Light("9", false)),
                 Collections.singletonList(new Door(true, "4")),
                 "hall");
-        SignalisationImpl signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
-        SmartHome smartHome = new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall), signalisation);
-        SmartHomeDataOutput smartHomeOutput = new JSONSmartHomeDataOutput("output.js");
-        smartHomeOutput.writeSmartHomeData(smartHome);
+        SignalisationImpl signalisation = new SignalisationImpl();
+        return new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall), signalisation);
     }
 }

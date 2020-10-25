@@ -31,14 +31,14 @@ public class AlarmDeactivateEventHandlerTest {
                 new Door(false, "1"));
         Room bathroom = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(bathroom);
-        SignalisationImpl signalisation = new SignalisationImpl("0000", ActivatedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_DEACTIVATE, "1234");
         EventHandler alarmActivateEventHandler = new AlarmDeactivateEventHandler();
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        String expectedState = AlarmedSignalState.stateName;
+        String expectedState = "Alarmed";
         assertEquals(expectedState, smartHome.getSignalisation().getState());
     }
 
@@ -53,14 +53,14 @@ public class AlarmDeactivateEventHandlerTest {
                 new Door(false, "1"));
         Room bathroom = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(bathroom);
-        SignalisationImpl signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_DEACTIVATE, "1234");
         EventHandler alarmActivateEventHandler = new AlarmDeactivateEventHandler();
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        String expectedState = DeactivatedSignalState.stateName;
+        String expectedState = "Deactivated";
         assertEquals(expectedState, smartHome.getSignalisation().getState());
     }
 
@@ -75,14 +75,14 @@ public class AlarmDeactivateEventHandlerTest {
                 new Door(false, "1"));
         Room bathroom = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(bathroom);
-        SignalisationImpl signalisation = new SignalisationImpl("0000", AlarmedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_DEACTIVATE, "1234");
         EventHandler alarmActivateEventHandler = new AlarmDeactivateEventHandler();
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        String expectedState = AlarmedSignalState.stateName;
+        String expectedState = "Alarmed";
         assertEquals(expectedState, smartHome.getSignalisation().getState());
     }
 
@@ -97,14 +97,14 @@ public class AlarmDeactivateEventHandlerTest {
                 new Door(false, "1"));
         Room bathroom = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(bathroom);
-        SignalisationImpl signalisation = new SignalisationImpl("0000", ActivatedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_DEACTIVATE, "0000");
         EventHandler alarmActivateEventHandler = new AlarmDeactivateEventHandler();
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        String expectedState = DeactivatedSignalState.stateName;
+        String expectedState = "Deactivated";
         assertEquals(expectedState, smartHome.getSignalisation().getState());
     }
 
@@ -119,14 +119,14 @@ public class AlarmDeactivateEventHandlerTest {
                 new Door(false, "1"));
         Room bathroom = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(bathroom);
-        SignalisationImpl signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_DEACTIVATE, "0000");
         EventHandler alarmActivateEventHandler = new AlarmDeactivateEventHandler();
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        String expectedState = DeactivatedSignalState.stateName;
+        String expectedState = "Deactivated";
         assertEquals(expectedState, smartHome.getSignalisation().getState());
     }
 
@@ -141,14 +141,14 @@ public class AlarmDeactivateEventHandlerTest {
                 new Door(false, "1"));
         Room bathroom = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(bathroom);
-        SignalisationImpl signalisation = new SignalisationImpl("0000", AlarmedSignalState.stateName);
+        SignalisationImpl signalisation = new SignalisationImpl();
         SmartHome smartHome = new SmartHome(rooms, signalisation);
         SensorEvent event = new SignalisationSensorEvent(ALARM_DEACTIVATE, "0000");
         EventHandler alarmActivateEventHandler = new AlarmDeactivateEventHandler();
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        String expectedState = DeactivatedSignalState.stateName;
+        String expectedState = "Deactivated";
         assertEquals(expectedState, smartHome.getSignalisation().getState());
     }
 }

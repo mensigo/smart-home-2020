@@ -2,31 +2,16 @@ package ru.sbt.mipt.oop.signalisation;
 
 public class SignalisationImpl implements Signalisation {
     private String accessCode;
-    private String stateName;
+    private SignalState state;
 
-    public SignalisationImpl(String accessCode, String initialSignalStateString) {
-        if (accessCode == null) {
-            throw new NullPointerException("SignalisationImpl::SignalisationImpl(..) parameter @accessCode is null.");
-        } else if (initialSignalStateString == null) {
-            throw new NullPointerException("SignalisationImpl::SignalisationImpl(..) parameter @signalStateString is null.");
-        }
-        this.accessCode = accessCode;
-        switch (initialSignalStateString) {
-            case ActivatedSignalState.stateName:
-                setState(ActivatedSignalState.stateName);
-                break;
-            case DeactivatedSignalState.stateName:
-                setState(DeactivatedSignalState.stateName);
-                break;
-            case AlarmedSignalState.stateName:
-                setState(AlarmedSignalState.stateName);
-                break;
-        }
+    public SignalisationImpl() {
+        this.accessCode = "0000";
+        this.state = new DeactivatedSignalState(accessCode, this);
     }
 
     @Override
-    public String getState() {
-        return stateName;
+    public SignalState getState() {
+        return state;
     }
 
     // for tests to ensure accessCode changes
@@ -35,13 +20,13 @@ public class SignalisationImpl implements Signalisation {
     }
 
     @Override
-    public void setState(String state) {
-        this.stateName = state;
+    public void setState(SignalState state) {
+        this.state = state;
     }
 
     @Override
-    public void setState(String state, String accessCode) {
-        this.stateName = state;
+    public void setState(SignalState state, String accessCode) {
+        this.state = state;
         this.accessCode = accessCode;
     };
 
@@ -50,7 +35,7 @@ public class SignalisationImpl implements Signalisation {
         if (enteredCode == null) {
             throw new NullPointerException("SignalisationImpl::activate(..) parameter @enteredCode is null.");
         }
-        createSignalState(stateName).activate(enteredCode);
+        state.activate(enteredCode);
     }
 
     @Override
@@ -58,24 +43,11 @@ public class SignalisationImpl implements Signalisation {
         if (enteredCode == null) {
             throw new NullPointerException("SignalisationImpl::deactivate(..) parameter @enteredCode is null.");
         }
-        createSignalState(stateName).deactivate(enteredCode);
+        state.deactivate(enteredCode);
     }
 
     @Override
     public void alarm() {
-        createSignalState(stateName).alarm();
-    }
-
-    private SignalState createSignalState(String signalStateName) {
-        switch (signalStateName) {
-            case ActivatedSignalState.stateName:
-                return new ActivatedSignalState(accessCode, this);
-            case DeactivatedSignalState.stateName:
-                return new DeactivatedSignalState(accessCode, this);
-            case AlarmedSignalState.stateName:
-                return new AlarmedSignalState(accessCode, this);
-            default:
-                throw new IllegalArgumentException("SignalisationImpl::createSignalState(..) parameter @signalStateName has wrong SignalState type..");
-        }
+        state.alarm();
     }
 }

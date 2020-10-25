@@ -13,12 +13,12 @@ public class SmartHome implements Actionable {
 
     public SmartHome() {
         rooms = new ArrayList<>();
-        signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
+        signalisation = new SignalisationImpl();
     }
 
     public SmartHome(Collection<Room> rooms) {
         this.rooms = rooms;
-        this.signalisation = new SignalisationImpl("0000", DeactivatedSignalState.stateName);
+        this.signalisation = new SignalisationImpl();
     }
 
     public SmartHome(Collection<Room> rooms, SignalisationImpl signalisation) {

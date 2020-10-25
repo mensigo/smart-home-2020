@@ -1,7 +1,7 @@
 package ru.sbt.mipt.oop.signalisation;
 
 public class DeactivatedSignalState implements SignalState {
-    public static final String stateName = "DeactivatedSignalState";
+    private final String name;
     private final String accessCode;
     private final Signalisation signalisation;
 
@@ -13,12 +13,18 @@ public class DeactivatedSignalState implements SignalState {
         }
         this.accessCode = accessCode;
         this.signalisation = signalisation;
+        this.name = "Deactivated";
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
     public void activate(String enteredCode) {
         System.out.println("Signalisation has been successfully activated with code " + enteredCode);
-        signalisation.setState(ActivatedSignalState.stateName, enteredCode);
+        signalisation.setState(new ActivatedSignalState(accessCode, signalisation), enteredCode);
     }
 
     @Override

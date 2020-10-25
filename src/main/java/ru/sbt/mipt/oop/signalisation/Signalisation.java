@@ -1,11 +1,11 @@
 package ru.sbt.mipt.oop.signalisation;
 
 public interface Signalisation {
-    String getState();
+    SignalState getState();
 
-    void setState(String stateName);
+    void setState(SignalState state);
 
-    void setState(String stateName, String enteredCode);
+    void setState(SignalState state, String enteredCode);
 
     void activate(String enteredCode);
 

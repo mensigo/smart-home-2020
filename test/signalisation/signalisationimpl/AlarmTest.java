@@ -1,54 +1,55 @@
 package signalisation.signalisationimpl;
 
 import org.junit.jupiter.api.Test;
-import ru.sbt.mipt.oop.signalisation.ActivatedSignalState;
-import ru.sbt.mipt.oop.signalisation.AlarmedSignalState;
-import ru.sbt.mipt.oop.signalisation.DeactivatedSignalState;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AlarmTest {
 
     @Test
     void tryToAlarmSignalisationSucceedWhenItIsActivated() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, ActivatedSignalState.stateName);
+        String accessCode = "0000";
+        SignalisationImpl signalisation = new SignalisationImpl();
+        signalisation.activate(accessCode);
         // when
         signalisation.alarm();
         // then
-        String expectedState = AlarmedSignalState.stateName;
+        String expectedState = "Alarmed";
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState());
+        assertEquals(expectedState, signalisation.getState().getName());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 
     @Test
     void tryToAlarmSignalisationDoNothingWhenItIsDeactivated() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, DeactivatedSignalState.stateName);
+        String accessCode = "0000";
+        SignalisationImpl signalisation = new SignalisationImpl();
         // when
         signalisation.alarm();
         // then
-        String expectedState = DeactivatedSignalState.stateName;
+        String expectedState = "Deactivated";
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState());
+        assertEquals(expectedState, signalisation.getState().getName());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 
     @Test
     void tryToAlarmSignalisationDoNothingWhenItIsAlarmed() {
         // given
-        String accessCode = "1234";
-        SignalisationImpl signalisation = new SignalisationImpl(accessCode, AlarmedSignalState.stateName);
+        String accessCode = "0000";
+        SignalisationImpl signalisation = new SignalisationImpl();
+        signalisation.activate(accessCode);
+        signalisation.alarm();
         // when
         signalisation.alarm();
         // then
-        String expectedState = AlarmedSignalState.stateName;
+        String expectedState = "Alarmed";
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState());
+        assertEquals(expectedState, signalisation.getState().getName());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 }
