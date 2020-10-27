@@ -7,14 +7,14 @@ import ru.sbt.mipt.oop.objects.SmartHome;
 
 public class RunningCycleApplication {
     private final EventGenerator eventGenerator;
-    private final EventHandlerRunner eventScenarioChooser;
+    private final EventHandlerRunner eventHandlerRunner;
     private final SmartHome smartHome;
 
     public RunningCycleApplication(EventGenerator eventGenerator,
                                    EventHandlerRunner eventScenarioChooser,
                                    SmartHome smartHome) {
         this.eventGenerator = eventGenerator;
-        this.eventScenarioChooser = eventScenarioChooser;
+        this.eventHandlerRunner = eventScenarioChooser;
         this.smartHome = smartHome;
     }
 
@@ -22,7 +22,7 @@ public class RunningCycleApplication {
         SensorEvent event = eventGenerator.provideNextEvent();
         while (event != null) {
             System.out.println("Got event: " + event);
-            eventScenarioChooser.runHandlers(event, smartHome);
+            eventHandlerRunner.runHandlers(event, smartHome);
             event = eventGenerator.provideNextEvent();
         }
     }
