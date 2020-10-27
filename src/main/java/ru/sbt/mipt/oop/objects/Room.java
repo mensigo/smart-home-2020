@@ -7,12 +7,13 @@ import java.util.Collection;
 public class Room implements Actionable {
     private final Collection<Light> lights;
     private final Collection<Door> doors;
-    private String name;
+    private final String name;
 
     public Room(Collection<Light> lights, Collection<Door> doors, String name) {
         this.lights = lights;
         this.doors = doors;
-        setName(name);
+        this.name = name;
+        setThisPlaceToObjectsInside();
     }
 
     public String getName() { return name; }
@@ -28,14 +29,13 @@ public class Room implements Actionable {
         }
     }
 
-    // used to give Room.name to all objects inside when building SmartHome
-    private void setName(String name) {
-        this.name = name;
+    // used to give Room link to all objects inside when building SmartHome
+    private void setThisPlaceToObjectsInside() {
         for (Light light : lights) {
-            light.setPlaceName(name);
+            light.setPlace(this);
         }
         for (Door door : doors) {
-            door.setPlaceName(name);
+            door.setPlace(this);
         }
     }
 }

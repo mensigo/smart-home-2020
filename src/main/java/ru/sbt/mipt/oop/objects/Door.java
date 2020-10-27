@@ -5,7 +5,7 @@ import ru.sbt.mipt.oop.actions.Action;
 public class Door implements Actionable {
     private final String id;
     private boolean isOpen;
-    private String placeName;
+    private Actionable place;
 
     public Door(boolean isOpen, String id) {
         this.isOpen = isOpen;
@@ -16,13 +16,14 @@ public class Door implements Actionable {
         return id;
     }
 
-    public String getPlaceName() { return placeName; }
+    // used in DoorCloseInHall action
+    public Actionable getPlace() { return place; }
 
     public boolean isOpen() { return isOpen; }
 
     // used in Room
-    public void  setPlaceName(String placeName) {
-        this.placeName = placeName;
+    public void  setPlace(Actionable place) {
+        this.place = place;
     }
 
     // used in Actions
