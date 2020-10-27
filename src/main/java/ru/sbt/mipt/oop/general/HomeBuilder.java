@@ -13,6 +13,12 @@ import java.util.Collections;
 public class HomeBuilder {
 
     public static void main(String[] args) {
+        SmartHome smartHome = buildSampleSmartHome();
+        SmartHomeDataOutput smartHomeOutput = new JSONSmartHomeDataOutput("output.js");
+        smartHomeOutput.writeSmartHomeData(smartHome);
+    }
+
+    public static SmartHome buildSampleSmartHome() {
         Room kitchen = new Room(
                 Arrays.asList(
                         new Light("1", false),
@@ -40,8 +46,6 @@ public class HomeBuilder {
                         new Light("9", false)),
                 Collections.singletonList(new Door(true, "4")),
                 "hall");
-        SmartHome smartHome = new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall));
-        SmartHomeDataOutput smartHomeOutput = new JSONSmartHomeDataOutput("output.js");
-        smartHomeOutput.writeSmartHomeData(smartHome);
+        return new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall));
     }
 }

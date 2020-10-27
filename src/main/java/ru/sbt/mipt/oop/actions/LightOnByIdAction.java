@@ -23,10 +23,6 @@ public class LightOnByIdAction implements Action {
         }
         Light light = (Light) object;
         if (light.getId().equals(objectId)) {
-            System.out.println(((Room) light.getPlace()).getName());
-            System.out.println((light.getPlace() instanceof Light));
-            System.out.println((light.getPlace() instanceof Room));
-            System.out.println((light.getPlace() instanceof SmartHome));
             String placeName = (light.getPlace() instanceof Room) ? ((Room) light.getPlace()).getName() : null;
             if (!light.isOn()) {
                 light.setOn(true);

@@ -9,16 +9,16 @@ import static ru.sbt.mipt.oop.commands.SensorCommandType.LIGHT_OFF;
 
 public class DoorCloseInHallAction implements Action {
     private final String objectId;
-    private final CommandSender commandSender;
-    private final boolean isQuiet;
     private final String hallName;
+    private final boolean isQuiet;
+    private final CommandSender commandSender;
     private SmartHome smartHome;
 
     public DoorCloseInHallAction(String objectId, String hallName, boolean isQuiet, CommandSender commandSender) {
         this.objectId = objectId;
-        this.commandSender = commandSender;
-        this.isQuiet = isQuiet;
         this.hallName = hallName;
+        this.isQuiet = isQuiet;
+        this.commandSender = commandSender;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DoorCloseInHallAction implements Action {
             Door door = ((Door) object);
             if (door.getId().equals(objectId) && door.isOpen()
                     && door.getPlace() instanceof Room
-                    && ((Room) door.getPlace()).getName().equalsIgnoreCase(hallName)) {
+                    && ((Room) door.getPlace()).getName().equals(hallName)) {
                 smartHome.execute(new LightOffAction(isQuiet, commandSender));
                 smartHome.execute(new LightSendCmdAction(LIGHT_OFF, commandSender));
             }

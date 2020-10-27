@@ -5,10 +5,7 @@ import ru.sbt.mipt.oop.commands.CommandSenderImpl;
 import ru.sbt.mipt.oop.events.eventgenerators.EventGenerator;
 import ru.sbt.mipt.oop.events.eventgenerators.RandomEventGenerator;
 import ru.sbt.mipt.oop.events.eventhandlers.*;
-import ru.sbt.mipt.oop.io.SmartHomeDataInput;
-import ru.sbt.mipt.oop.io.JSONSmartHomeDataInput;
-import ru.sbt.mipt.oop.io.SmartHomeDataOutput;
-import ru.sbt.mipt.oop.io.JSONSmartHomeDataOutput;
+import ru.sbt.mipt.oop.io.*;
 import ru.sbt.mipt.oop.objects.SmartHome;
 
 import java.util.Arrays;
@@ -44,8 +41,8 @@ public class Application {
                 // more eventHandlers can be added here
         );
         Application application = new Application(
-                new JSONSmartHomeDataInput("input.js"),
-                new JSONSmartHomeDataOutput("output.js"),
+                new CustomSmartHomeDataInput(),
+                new CustomSmartHomeDataOutput(),
                 new EventHandlerRunnerImpl(eventHandlerList),
                 new RandomEventGenerator());
         RunningCycleApplication runCycleApplication = new RunningCycleApplication(
