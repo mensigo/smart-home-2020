@@ -3,6 +3,7 @@ package ru.sbt.mipt.oop.general;
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.commands.CommandSenderImpl;
 import ru.sbt.mipt.oop.events.decorators.SignalisationEventHandlerRunnerDecorator;
+import ru.sbt.mipt.oop.events.decorators.SignalisationSMSSender;
 import ru.sbt.mipt.oop.events.eventgenerators.EventGenerator;
 import ru.sbt.mipt.oop.events.eventgenerators.RandomEventGenerator;
 import ru.sbt.mipt.oop.events.eventhandlers.*;
@@ -34,6 +35,8 @@ public class Application {
         String hallName = "hall";
         CommandSender commandSender = new CommandSenderImpl();
         List<EventHandler> eventHandlerList = Arrays.asList(
+                new AlarmActivateEventHandler(),
+                new AlarmDeactivateEventHandler(),
                 new LightOnEventHandler(commandSender),
                 new LightOffEventHandler(commandSender),
                 new DoorOpenEventHandler(commandSender),
@@ -44,7 +47,10 @@ public class Application {
         Application application = new Application(
                 new CustomSmartHomeDataInput(),
                 new CustomSmartHomeDataOutput(),
-                new SignalisationEventHandlerRunnerDecorator(new EventHandlerRunnerImpl(eventHandlerList)),
+                new SignalisationEventHandlerRunnerDecorator(
+                        new EventHandlerRunnerImpl(eventHandlerList),
+                        new SignalisationSMSSender()
+                ),
                 new RandomEventGenerator()
         );
         RunningCycleApplication runCycleApplication = new RunningCycleApplication(

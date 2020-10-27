@@ -4,14 +4,17 @@ import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SimpleSensorEvent;
 import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunner;
 import ru.sbt.mipt.oop.objects.SmartHome;
+import ru.sbt.mipt.oop.signalisation.SignalStateName;
 import ru.sbt.mipt.oop.signalisation.Signalisation;
+
+import static ru.sbt.mipt.oop.signalisation.SignalStateName.*;
 
 public class SignalisationEventHandlerRunnerDecorator extends BaseEventHandlerRunnerDecorator {
     private final SMSSender smsSender;
 
-    public SignalisationEventHandlerRunnerDecorator(EventHandlerRunner eventHandlerRunner) {
+    public SignalisationEventHandlerRunnerDecorator(EventHandlerRunner eventHandlerRunner, SMSSender smsSender) {
         super(eventHandlerRunner);
-        smsSender = new SignalisationSMSSender();
+        this.smsSender = smsSender;
     }
 
     @Override
@@ -19,10 +22,10 @@ public class SignalisationEventHandlerRunnerDecorator extends BaseEventHandlerRu
         if (event instanceof SimpleSensorEvent) {
             // simple sensor event
             Signalisation signalisation = smartHome.getSignalisation();
-            String signalisationStateName = signalisation.getState().getName();
-            if (signalisationStateName.equals("Alarmed")) {
+            SignalStateName signalStateName = signalisation.getState().getName();
+            if (signalStateName.equals(STATE_ALARMED)) {
                 smsSender.sendSMS(event.toString());
-            } else if (signalisationStateName.equals("Activated")) {
+            } else if (signalStateName.equals(STATE_ACTIVATED)) {
                 signalisation.alarm();
                 smsSender.sendSMS(event.toString());
             } else {

@@ -16,7 +16,7 @@ public class Door implements Actionable {
         return id;
     }
 
-    // used in DoorCloseInHall action
+    // used in Door Actions
     public Actionable getPlace() { return place; }
 
     public boolean isOpen() { return isOpen; }

@@ -47,7 +47,7 @@ public class HomeBuilder {
                         new Light("9", false)),
                 Collections.singletonList(new Door(true, "4")),
                 "hall");
-        SignalisationImpl signalisation = new SignalisationImpl();
+        SignalisationImpl signalisation = new SignalisationImpl("0000");
         return new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall), signalisation);
     }
 }

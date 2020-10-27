@@ -1,30 +1,32 @@
 package ru.sbt.mipt.oop.objects;
 
 import ru.sbt.mipt.oop.actions.Action;
+import ru.sbt.mipt.oop.signalisation.Signalisation;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class SmartHome implements Actionable {
     private final Collection<Room> rooms;
+    private final Signalisation signalisation;
 
-    public SmartHome() {
-        rooms = new ArrayList<>();
-        signalisation = new SignalisationImpl();
+    public SmartHome(Signalisation signalisation) {
+        this.rooms = new ArrayList<>();
+        this.signalisation = signalisation;
     }
 
-    public SmartHome(Collection<Room> rooms) {
-        this.rooms = rooms;
-        this.signalisation = new SignalisationImpl();
-    }
-
-    public SmartHome(Collection<Room> rooms, SignalisationImpl signalisation) {
+    public SmartHome(Collection<Room> rooms, Signalisation signalisation) {
         this.rooms = rooms;
         this.signalisation = signalisation;
     }
 
     public void addRoom(Room room) {
         rooms.add(room);
+    }
+
+    // used in decorator, handlers
+    public Signalisation getSignalisation() {
+        return signalisation;
     }
 
     @Override

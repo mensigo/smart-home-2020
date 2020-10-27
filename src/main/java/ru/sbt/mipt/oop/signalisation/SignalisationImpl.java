@@ -4,8 +4,8 @@ public class SignalisationImpl implements Signalisation {
     private String accessCode;
     private SignalState state;
 
-    public SignalisationImpl() {
-        this.accessCode = "0000";
+    public SignalisationImpl(String accessCode) {
+        this.accessCode = accessCode;
         this.state = new DeactivatedSignalState(accessCode, this);
     }
 
