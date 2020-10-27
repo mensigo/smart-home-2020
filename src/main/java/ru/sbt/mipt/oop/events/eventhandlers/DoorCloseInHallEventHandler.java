@@ -10,15 +10,17 @@ import static ru.sbt.mipt.oop.events.SensorEventType.DOOR_CLOSE;
 
 public class DoorCloseInHallEventHandler implements EventHandler {
     private final CommandSender commandSender;
+    private final String hallName;
 
-    public DoorCloseInHallEventHandler(CommandSender commandSender) {
+    public DoorCloseInHallEventHandler(String hallName, CommandSender commandSender) {
         this.commandSender = commandSender;
+        this.hallName = hallName;
     }
 
     @Override
     public void handleEvent(SensorEvent event, SmartHome smartHome) {
         if (event instanceof SimpleSensorEvent & event.getType().equals(DOOR_CLOSE)) {
-            smartHome.execute(new DoorCloseInHallAction(event.getObjectId(), event.isQuiet(), commandSender));
+            smartHome.execute(new DoorCloseInHallAction(event.getObjectId(), hallName, event.isQuiet(), commandSender));
         }
     }
 }

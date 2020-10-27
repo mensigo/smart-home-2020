@@ -2,6 +2,7 @@ package ru.sbt.mipt.oop.actions;
 
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.objects.Light;
+import ru.sbt.mipt.oop.objects.Room;
 
 public class LightOffByIdAction implements Action {
     private final String objectId;
@@ -21,14 +22,15 @@ public class LightOffByIdAction implements Action {
         }
         Light light = (Light) object;
         if (light.getId().equals(objectId)) {
+            String placeName = (light.getPlace() instanceof Room) ? ((Room) light.getPlace()).getName() : null;
             if (light.isOn()) {
                 light.setOn(false);
                 if (!isQuiet) {
-                    System.out.println("Light " + light.getId() + " in place " + light.getPlaceName() + " has been turned off.");
+                    System.out.println("Light " + light.getId() + " in place " + placeName + " has been turned off.");
                 }
             } else {
                 if (!isQuiet) {
-                    System.out.println("Light " + light.getId() + " in place " + light.getPlaceName() + " has been already turned off.");
+                    System.out.println("Light " + light.getId() + " in place " + placeName + " has been already turned off.");
                 }
             }
         }
