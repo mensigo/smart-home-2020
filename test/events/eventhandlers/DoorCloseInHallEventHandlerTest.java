@@ -33,7 +33,7 @@ public class DoorCloseInHallEventHandlerTest {
         SmartHome smartHome = new SmartHome(rooms);
         SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "1", false);
         CommandSender commandSender = new CommandSenderImpl();
-        EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler(commandSender);
+        EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler("hall", commandSender);
         // when
         smartDoorEventHandler.handleEvent(event, smartHome);
         // then
@@ -54,7 +54,7 @@ public class DoorCloseInHallEventHandlerTest {
         SmartHome smartHome = new SmartHome(rooms);
         SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "1", false);
         CommandSender commandSender = new CommandSenderImpl();
-        EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler(commandSender);
+        EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler("hall", commandSender);
         // when
         smartDoorEventHandler.handleEvent(event, smartHome);
         // then

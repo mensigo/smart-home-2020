@@ -1,15 +1,12 @@
 package ru.sbt.mipt.oop.objects;
 
 import ru.sbt.mipt.oop.actions.Action;
-import ru.sbt.mipt.oop.signalisation.DeactivatedSignalState;
-import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class SmartHome implements Actionable {
     private final Collection<Room> rooms;
-    private SignalisationImpl signalisation;
 
     public SmartHome() {
         rooms = new ArrayList<>();
@@ -28,11 +25,6 @@ public class SmartHome implements Actionable {
 
     public void addRoom(Room room) {
         rooms.add(room);
-    }
-
-    // for signalisation decorator & event handlers, also tests
-    public SignalisationImpl getSignalisation() {
-        return signalisation;
     }
 
     @Override

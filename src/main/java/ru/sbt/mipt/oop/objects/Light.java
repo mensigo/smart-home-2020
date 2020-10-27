@@ -5,7 +5,7 @@ import ru.sbt.mipt.oop.actions.Action;
 public class Light implements Actionable {
     private boolean isOn;
     private final String id;
-    private String placeName;
+    private Actionable place;
 
     public Light(String id, boolean isOn) {
         this.id = id;
@@ -16,13 +16,13 @@ public class Light implements Actionable {
         return id;
     }
 
-    public String getPlaceName() { return placeName; }
+    public Actionable getPlace() { return place; }
 
     public boolean isOn() { return isOn; }
 
     // used in Room
-    public void  setPlaceName(String placeName) {
-        this.placeName = placeName;
+    public void  setPlace(Actionable place) {
+        this.place = place;
     }
 
     // used in Actions

@@ -2,12 +2,7 @@ package ru.sbt.mipt.oop.events.eventgenerators;
 
 import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SensorEventType;
-import ru.sbt.mipt.oop.events.SignalisationSensorEvent;
 import ru.sbt.mipt.oop.events.SimpleSensorEvent;
-
-import java.util.Arrays;
-
-import static ru.sbt.mipt.oop.events.SensorEventType.*;
 
 public class RandomEventGenerator implements EventGenerator {
 
@@ -17,10 +12,6 @@ public class RandomEventGenerator implements EventGenerator {
         if (Math.random() < 0.05) { return null; } // null means end of event stream
         String objectId = "" + ((int) (10 * Math.random()));
         SensorEventType sensorEventType = SensorEventType.values()[(int) (SensorEventType.values().length * Math.random())];
-        if (sensorEventType == ALARM_ACTIVATE || sensorEventType == ALARM_DEACTIVATE) {
-            String enteredCode = Arrays.asList("0000", "1234").get((int) (2 * Math.random()));
-            return new SignalisationSensorEvent(sensorEventType, enteredCode);
-        }
         return new SimpleSensorEvent(sensorEventType, objectId, false);
     }
 }

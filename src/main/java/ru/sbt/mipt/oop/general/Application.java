@@ -1,13 +1,16 @@
 package ru.sbt.mipt.oop.general;
 
+import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.commands.CommandSenderImpl;
 import ru.sbt.mipt.oop.events.decorators.SignalisationEventHandlerRunnerDecorator;
 import ru.sbt.mipt.oop.events.eventgenerators.EventGenerator;
 import ru.sbt.mipt.oop.events.eventgenerators.RandomEventGenerator;
-import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunner;
-import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunnerImpl;
+import ru.sbt.mipt.oop.events.eventhandlers.*;
 import ru.sbt.mipt.oop.io.*;
 import ru.sbt.mipt.oop.objects.SmartHome;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Application {
     private final SmartHomeDataInput smartHomeDataInput;
@@ -28,10 +31,20 @@ public class Application {
     }
 
     public static void main(String[] args) {
+        String hallName = "hall";
+        CommandSender commandSender = new CommandSenderImpl();
+        List<EventHandler> eventHandlerList = Arrays.asList(
+                new LightOnEventHandler(commandSender),
+                new LightOffEventHandler(commandSender),
+                new DoorOpenEventHandler(commandSender),
+                new DoorCloseEventHandler(commandSender),
+                new DoorCloseInHallEventHandler(hallName, commandSender)
+                // more eventHandlers can be added here
+        );
         Application application = new Application(
                 new CustomSmartHomeDataInput(),
                 new CustomSmartHomeDataOutput(),
-                new SignalisationEventHandlerRunnerDecorator(new EventHandlerRunnerImpl(new CommandSenderImpl())),
+                new SignalisationEventHandlerRunnerDecorator(new EventHandlerRunnerImpl(eventHandlerList)),
                 new RandomEventGenerator()
         );
         RunningCycleApplication runCycleApplication = new RunningCycleApplication(

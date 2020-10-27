@@ -2,6 +2,7 @@ package ru.sbt.mipt.oop.actions;
 
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.objects.Door;
+import ru.sbt.mipt.oop.objects.Room;
 
 public class DoorOpenByIdAction implements Action {
     private final String objectId;
@@ -21,14 +22,15 @@ public class DoorOpenByIdAction implements Action {
         }
         Door door = (Door) object;
         if (door.getId().equals(objectId)) {
+            String placeName = (door.getPlace() instanceof Room) ? ((Room) door.getPlace()).getName() : null;
             if (!door.isOpen()) {
                 door.setOpen(true);
                 if (!isQuiet) {
-                    System.out.println("Door " + door.getId() + " in place " + door.getPlaceName() + " has been opened.");
+                    System.out.println("Door " + door.getId() + " in place " + placeName + " has been opened.");
                 }
             } else {
                 if (!isQuiet) {
-                    System.out.println("Door " + door.getId() + " in place " + door.getPlaceName() + " has been already opened.");
+                    System.out.println("Door " + door.getId() + " in place " + placeName + " has been already opened.");
                 }
             }
         }
