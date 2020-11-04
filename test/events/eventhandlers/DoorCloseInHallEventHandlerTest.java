@@ -33,9 +33,8 @@ public class DoorCloseInHallEventHandlerTest {
         lights = Arrays.asList(
                 new Light("1", false),
                 new Light("2", true));
-        doors = Arrays.asList(
-                new Door(true, "1"),
-                new Door(false, "2")
+        doors = Collections.singletonList(
+                new Door(true, "1")
         );
         Room room = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(room);
@@ -45,7 +44,7 @@ public class DoorCloseInHallEventHandlerTest {
     }
 
     @Test
-    void handleDoorInHallScenarioTurnOffAllLightsAndSendCommandsToThemWhenDoorIsOpened() {
+    void handleDoorInHallScenarioTurnOffAllLightsAndSendCommandsToThemWhenDoorIsInHall() {
         // given
         SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "1", false);
         EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler(roomName, commandSender);
@@ -54,18 +53,5 @@ public class DoorCloseInHallEventHandlerTest {
         // then
         assertFalse(lights.get(0).isOn());
         assertFalse(lights.get(1).isOn());
-    }
-
-    @Test
-    void handleDoorInHallScenarioDoNothingWhenDoorIsClosed() {
-        // given
-        SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "2", false);
-        EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler("hall", commandSender);
-        // when
-        smartDoorEventHandler.handleEvent(event, smartHome);
-        // then
-        System.out.println(lights);
-        assertFalse(lights.get(0).isOn());
-        assertTrue(lights.get(1).isOn());
     }
 }

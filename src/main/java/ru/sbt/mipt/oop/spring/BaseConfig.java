@@ -2,6 +2,7 @@ package ru.sbt.mipt.oop.spring;
 
 import com.coolcompany.smarthome.events.SensorEventsManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +18,20 @@ import ru.sbt.mipt.oop.objects.SmartHome;
 
 @Configuration
 @ComponentScan
-@Import({EventHandlersConfig.class, IOConfig.class, DecoratorConfig.class})
+@Import({EventHandlersConfig.class, IOConfig.class, DecoratorConfig.class, RemoteControlConfig.class})
 public class BaseConfig {
+
+    @Bean
+    @Value("${hallName:hall}")
+    public String hallName(String hallName) {
+        return hallName;
+    }
+
+    @Bean
+    @Value("${standardSigActivateCode:0000}")
+    public String standardSigActivateCode(String standardSigActivateCode) {
+        return standardSigActivateCode;
+    }
 
     @Autowired SignalisationEventHandlerRunnerDecorator createSignalisationEventHandlerRunnerDecorator;
     @Autowired SmartHomeDataInput createSmartHomeDataInput;
