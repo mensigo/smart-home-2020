@@ -9,9 +9,16 @@ public class SignalisationImpl implements Signalisation {
         this.state = new DeactivatedSignalState(accessCode, this);
     }
 
-    @Override
-    public SignalState getState() {
-        return state;
+    public boolean isDeactivated() {
+        return state instanceof DeactivatedSignalState;
+    }
+
+    public boolean isActivated() {
+        return state instanceof ActivatedSignalState;
+    }
+
+    public boolean isAlarmed() {
+        return state instanceof AlarmedSignalState;
     }
 
     // for tests to ensure accessCode changes
@@ -19,16 +26,14 @@ public class SignalisationImpl implements Signalisation {
         return accessCode.equals(code);
     }
 
-    @Override
     public void setState(SignalState state) {
         this.state = state;
     }
 
-    @Override
     public void setState(SignalState state, String accessCode) {
         this.state = state;
         this.accessCode = accessCode;
-    };
+    }
 
     @Override
     public void activate(String enteredCode) {

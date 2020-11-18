@@ -15,17 +15,14 @@ import java.util.List;
 
 public class Application {
     private final SmartHomeDataInput smartHomeDataInput;
-    private final SmartHomeDataOutput smartHomeDataOutput;
     private final EventGenerator eventGenerator;
     private final EventHandlerRunner eventScenarioChooser;
     private final SmartHome smartHome;
 
     public Application(SmartHomeDataInput smartHomeDataInput,
-                       SmartHomeDataOutput smartHomeDataOutput,
                        EventHandlerRunner eventScenarioChooser,
                        EventGenerator eventGenerator) {
         this.smartHomeDataInput = smartHomeDataInput;
-        this.smartHomeDataOutput = smartHomeDataOutput;
         this.smartHome = this.smartHomeDataInput.readSmartHomeData();
         this.eventScenarioChooser = eventScenarioChooser;
         this.eventGenerator = eventGenerator;
@@ -46,7 +43,6 @@ public class Application {
         );
         Application application = new Application(
                 new CustomSmartHomeDataInput(),
-                new CustomSmartHomeDataOutput(),
                 new SignalisationEventHandlerRunnerDecorator(
                         new EventHandlerRunnerImpl(eventHandlerList),
                         new SignalisationSMSSender()

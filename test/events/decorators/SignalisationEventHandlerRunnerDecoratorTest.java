@@ -15,7 +15,6 @@ import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
 import ru.sbt.mipt.oop.objects.SmartHome;
-import ru.sbt.mipt.oop.signalisation.SignalStateName;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.Arrays;
@@ -23,9 +22,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.sbt.mipt.oop.events.SensorEventType.ALARM_ACTIVATE;
 import static ru.sbt.mipt.oop.events.SensorEventType.LIGHT_ON;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.*;
 
 public class SignalisationEventHandlerRunnerDecoratorTest {
     private List<Light> lights;
@@ -69,9 +68,8 @@ public class SignalisationEventHandlerRunnerDecoratorTest {
         decoratedEventHandlerRunner.runHandlers(event, smartHome);
         // then
         boolean expectedObjectState = true;
-        SignalStateName expectedSignalisationState = STATE_DEACTIVATED;
         assertEquals(expectedObjectState, lights.get(0).isOn());
-        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
     }
 
     @Test
@@ -84,9 +82,8 @@ public class SignalisationEventHandlerRunnerDecoratorTest {
         decoratedEventHandlerChooser.runHandlers(event, smartHome);
         // then
         boolean expectedObjectState = false;
-        SignalStateName expectedSignalisationState = STATE_ALARMED;
         assertEquals(expectedObjectState, lights.get(0).isOn());
-        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 
     @Test
@@ -100,9 +97,8 @@ public class SignalisationEventHandlerRunnerDecoratorTest {
         decoratedEventHandlerChooser.runHandlers(event, smartHome);
         // then
         boolean expectedObjectState = false;
-        SignalStateName expectedSignalisationState = STATE_ALARMED;
         assertEquals(expectedObjectState, lights.get(0).isOn());
-        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 
     @Test
@@ -115,9 +111,8 @@ public class SignalisationEventHandlerRunnerDecoratorTest {
         decoratedEventHandlerChooser.runHandlers(event, smartHome);
         // then
         boolean expectedObjectState = false;
-        SignalStateName expectedSignalisationState = STATE_ACTIVATED;
         assertEquals(expectedObjectState, lights.get(0).isOn());
-        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
     }
 
     @Test
@@ -129,9 +124,8 @@ public class SignalisationEventHandlerRunnerDecoratorTest {
         decoratedEventHandlerChooser.runHandlers(event, smartHome);
         // then
         boolean expectedObjectState = false;
-        SignalStateName expectedSignalisationState = STATE_ACTIVATED;
         assertEquals(expectedObjectState, lights.get(0).isOn());
-        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
     }
 
     @Test
@@ -145,8 +139,7 @@ public class SignalisationEventHandlerRunnerDecoratorTest {
         decoratedEventHandlerChooser.runHandlers(event, smartHome);
         // then
         boolean expectedObjectState = false;
-        SignalStateName expectedSignalisationState = STATE_ALARMED;
         assertEquals(expectedObjectState, lights.get(0).isOn());
-        assertEquals(expectedSignalisationState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 }

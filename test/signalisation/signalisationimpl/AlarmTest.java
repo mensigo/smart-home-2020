@@ -1,12 +1,9 @@
 package signalisation.signalisationimpl;
 
 import org.junit.jupiter.api.Test;
-import ru.sbt.mipt.oop.signalisation.SignalStateName;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.*;
 
 public class AlarmTest {
 
@@ -19,9 +16,8 @@ public class AlarmTest {
         // when
         signalisation.alarm();
         // then
-        SignalStateName expectedState = STATE_ALARMED;
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState().getName());
+        assertTrue(signalisation.isAlarmed());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 
@@ -33,9 +29,8 @@ public class AlarmTest {
         // when
         signalisation.alarm();
         // then
-        SignalStateName expectedState = STATE_DEACTIVATED;
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState().getName());
+        assertTrue(signalisation.isDeactivated());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 
@@ -49,9 +44,8 @@ public class AlarmTest {
         // when
         signalisation.alarm();
         // then
-        SignalStateName expectedState = STATE_ALARMED;
         String expectedAccessCode = accessCode;
-        assertEquals(expectedState, signalisation.getState().getName());
+        assertTrue(signalisation.isAlarmed());
         assertTrue(signalisation.isAccessCode(expectedAccessCode));
     }
 }

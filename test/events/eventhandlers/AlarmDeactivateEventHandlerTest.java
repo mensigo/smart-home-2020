@@ -10,15 +10,15 @@ import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
 import ru.sbt.mipt.oop.objects.SmartHome;
-import ru.sbt.mipt.oop.signalisation.*;
+import ru.sbt.mipt.oop.signalisation.Signalisation;
+import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.sbt.mipt.oop.events.SensorEventType.ALARM_DEACTIVATE;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.*;
 
 public class AlarmDeactivateEventHandlerTest {
     private List<Light> lights;
@@ -50,8 +50,7 @@ public class AlarmDeactivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_ALARMED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 
     @Test
@@ -63,8 +62,7 @@ public class AlarmDeactivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_DEACTIVATED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
     }
 
     @Test
@@ -78,8 +76,7 @@ public class AlarmDeactivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_ALARMED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 
     @Test
@@ -92,8 +89,7 @@ public class AlarmDeactivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_DEACTIVATED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
     }
 
     @Test
@@ -105,8 +101,7 @@ public class AlarmDeactivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_DEACTIVATED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
     }
 
     @Test
@@ -118,7 +113,6 @@ public class AlarmDeactivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_DEACTIVATED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
     }
 }
