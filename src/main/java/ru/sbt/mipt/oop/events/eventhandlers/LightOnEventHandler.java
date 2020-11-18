@@ -17,7 +17,7 @@ public class LightOnEventHandler implements EventHandler {
 
     @Override
     public void handleEvent(SensorEvent event, SmartHome smartHome) {
-        if (event instanceof SimpleSensorEvent & event.getType().equals(LIGHT_ON)) {
+        if (event instanceof SimpleSensorEvent && event.getType().equals(LIGHT_ON)) {
             smartHome.execute(new LightOnByIdAction(event.getObjectId(), event.isQuiet(), commandSender));
         }
     }
