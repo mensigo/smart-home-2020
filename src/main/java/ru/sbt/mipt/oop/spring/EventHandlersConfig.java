@@ -13,71 +13,69 @@ import java.util.List;
 
 @Configuration
 public class EventHandlersConfig {
-
-    @Value("#{hallName}")
-    private String hallName;
+    final String hallName = "hall"; // to be scanned
 
     @Bean
-    AlarmActivateEventHandler createAlarmActivateEventHandler() {
+    AlarmActivateEventHandler alarmActivateEventHandler() {
         return new AlarmActivateEventHandler();
     }
 
     @Bean
-    AlarmDeactivateEventHandler createAlarmDeactivateEventHandler() {
+    AlarmDeactivateEventHandler alarmDeactivateEventHandler() {
         return new AlarmDeactivateEventHandler();
     }
 
     @Bean
-    LightOnEventHandler createLightOnEventHandler(CommandSender commandSender) {
+    LightOnEventHandler lightOnEventHandler(CommandSender commandSender) {
         return new LightOnEventHandler(commandSender);
     }
 
     @Bean
-    LightOffEventHandler createLightOffEventHandler(CommandSender commandSender) {
+    LightOffEventHandler lightOffEventHandler(CommandSender commandSender) {
         return new LightOffEventHandler(commandSender);
     }
 
     @Bean
-    DoorOpenEventHandler createDoorOpenEventHandler(CommandSender commandSender) {
+    DoorOpenEventHandler doorOpenEventHandler(CommandSender commandSender) {
         return new DoorOpenEventHandler(commandSender);
     }
 
     @Bean
-    DoorCloseEventHandler createDoorCloseEventHandler(CommandSender commandSender) {
+    DoorCloseEventHandler doorCloseEventHandler(CommandSender commandSender) {
         return new DoorCloseEventHandler(commandSender);
     }
 
     @Bean
-    DoorCloseInHallEventHandler createDoorCloseInHallEventHandler(String hallName, CommandSender commandSender) {
+    DoorCloseInHallEventHandler doorCloseInHallEventHandler(String hallName, CommandSender commandSender) {
         return new DoorCloseInHallEventHandler(hallName, commandSender);
     }
 
     @Bean
-    UnknownEventHandler createUnknownEventHandler() {
+    UnknownEventHandler unknownEventHandler() {
         return new UnknownEventHandler();
     }
 
     @Bean
-    EventHandlerRunner createEventHandlerRunner(CommandSender commandSender) {
-        return new EventHandlerRunnerImpl(createEventHandlerList(hallName, commandSender));
+    EventHandlerRunner eventHandlerRunner(CommandSender commandSender) {
+        return new EventHandlerRunnerImpl(eventHandlerList(hallName, commandSender));
     }
 
     @Bean
-    CommandSender createCommandSender() {
+    CommandSender commandSender() {
         return new CommandSenderImpl();
     }
 
     @Bean
-    List<EventHandler> createEventHandlerList(String hallName, CommandSender commandSender) {
+    List<EventHandler> eventHandlerList(String hallName, CommandSender commandSender) {
         return Arrays.asList(
-                createAlarmActivateEventHandler(),
-                createAlarmDeactivateEventHandler(),
-                createLightOnEventHandler(commandSender),
-                createLightOffEventHandler(commandSender),
-                createDoorOpenEventHandler(commandSender),
-                createDoorCloseEventHandler(commandSender),
-                createDoorCloseInHallEventHandler(hallName, commandSender),
-                createUnknownEventHandler()
+                alarmActivateEventHandler(),
+                alarmDeactivateEventHandler(),
+                lightOnEventHandler(commandSender),
+                lightOffEventHandler(commandSender),
+                doorOpenEventHandler(commandSender),
+                doorCloseEventHandler(commandSender),
+                doorCloseInHallEventHandler(hallName, commandSender),
+                unknownEventHandler()
                 // more eventHandlers can be added here
         );
     }

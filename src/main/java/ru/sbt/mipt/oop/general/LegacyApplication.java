@@ -4,7 +4,7 @@ import com.anothercompany.rc.RemoteControl;
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.commands.CommandSenderImpl;
 import ru.sbt.mipt.oop.events.decorators.SignalisationEventHandlerRunnerDecorator;
-import ru.sbt.mipt.oop.events.decorators.SignalisationSMSSender;
+import ru.sbt.mipt.oop.events.decorators.SimpleSMSSender;
 import ru.sbt.mipt.oop.events.eventgenerators.EventGenerator;
 import ru.sbt.mipt.oop.events.eventgenerators.RandomEventGenerator;
 import ru.sbt.mipt.oop.events.eventhandlers.*;
@@ -19,7 +19,6 @@ import java.util.List;
 
 public class LegacyApplication {
     private final SmartHomeDataInput smartHomeDataInput;
-    private final SmartHomeDataOutput smartHomeDataOutput;
     private final EventGenerator eventGenerator;
     private final EventHandlerRunner eventScenarioChooser;
     private final RemoteControl remoteControl;
@@ -32,7 +31,6 @@ public class LegacyApplication {
                              RemoteControl remoteControl
                              ) {
         this.smartHomeDataInput = smartHomeDataInput;
-        this.smartHomeDataOutput = smartHomeDataOutput;
         this.smartHome = this.smartHomeDataInput.readSmartHomeData();
         this.eventScenarioChooser = eventScenarioChooser;
         this.eventGenerator = eventGenerator;
@@ -54,10 +52,9 @@ public class LegacyApplication {
         );
         LegacyApplication application = new LegacyApplication(
                 new CustomSmartHomeDataInput(),
-                new CustomSmartHomeDataOutput(),
                 new SignalisationEventHandlerRunnerDecorator(
                         new EventHandlerRunnerImpl(eventHandlerList),
-                        new SignalisationSMSSender()
+                        new SimpleSMSSender()
                 ),
                 new RandomEventGenerator(),
                 null // need smartHome to be initialized -> use springApp

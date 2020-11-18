@@ -1,13 +1,10 @@
 package ru.sbt.mipt.oop.signalisation;
 
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.STATE_ALARMED;
-
 public class AlarmedSignalState implements SignalState {
-    private final SignalStateName name;
     private final String accessCode;
-    private final Signalisation signalisation;
+    private final SignalisationImpl signalisation;
 
-    public AlarmedSignalState(String accessCode, Signalisation signalisation) {
+    public AlarmedSignalState(String accessCode, SignalisationImpl signalisation) {
         if (accessCode == null) {
             throw new NullPointerException("AlarmedSignalState::AlarmedSignalState(..) parameter @accessCode is null.");
         } else if (signalisation == null) {
@@ -15,12 +12,6 @@ public class AlarmedSignalState implements SignalState {
         }
         this.accessCode = accessCode;
         this.signalisation = signalisation;
-        this.name = STATE_ALARMED;
-    }
-
-    @Override
-    public SignalStateName getName() {
-        return name;
     }
 
     @Override

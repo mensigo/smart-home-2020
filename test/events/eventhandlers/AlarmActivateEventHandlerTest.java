@@ -10,24 +10,20 @@ import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
 import ru.sbt.mipt.oop.objects.SmartHome;
-import ru.sbt.mipt.oop.signalisation.SignalStateName;
-import ru.sbt.mipt.oop.signalisation.Signalisation;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.sbt.mipt.oop.events.SensorEventType.ALARM_ACTIVATE;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.STATE_ACTIVATED;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.STATE_ALARMED;
 
 public class AlarmActivateEventHandlerTest {
     private List<Light> lights;
     private List<Door> doors;
     private SmartHome smartHome;
-    private Signalisation signalisation;
+    private SignalisationImpl signalisation;
 
     @BeforeEach
     public void prepareSmartHome() {
@@ -53,8 +49,7 @@ public class AlarmActivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_ACTIVATED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
     }
 
     @Test
@@ -66,8 +61,7 @@ public class AlarmActivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_ACTIVATED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
     }
 
     @Test
@@ -81,7 +75,6 @@ public class AlarmActivateEventHandlerTest {
         // when
         alarmActivateEventHandler.handleEvent(event, smartHome);
         // then
-        SignalStateName expectedState = STATE_ALARMED;
-        assertEquals(expectedState, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 }
