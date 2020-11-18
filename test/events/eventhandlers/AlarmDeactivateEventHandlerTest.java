@@ -10,7 +10,6 @@ import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
 import ru.sbt.mipt.oop.objects.SmartHome;
-import ru.sbt.mipt.oop.signalisation.Signalisation;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.Arrays;
@@ -24,7 +23,7 @@ public class AlarmDeactivateEventHandlerTest {
     private List<Light> lights;
     private List<Door> doors;
     private SmartHome smartHome;
-    private Signalisation signalisation;
+    private SignalisationImpl signalisation;
 
     @BeforeEach
     public void prepareSmartHome() {

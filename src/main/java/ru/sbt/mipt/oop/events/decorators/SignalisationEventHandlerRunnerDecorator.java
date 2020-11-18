@@ -4,14 +4,15 @@ import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SimpleSensorEvent;
 import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunner;
 import ru.sbt.mipt.oop.objects.SmartHome;
-import ru.sbt.mipt.oop.signalisation.Signalisation;
 import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
-public class SignalisationEventHandlerRunnerDecorator extends BaseEventHandlerRunnerDecorator {
+public class SignalisationEventHandlerRunnerDecorator implements EventHandlerRunner {
+    private final EventHandlerRunner eventHandlerRunnerWrapped;
     private final SMSSender smsSender;
 
-    public SignalisationEventHandlerRunnerDecorator(EventHandlerRunner eventHandlerRunner, SMSSender smsSender) {
-        super(eventHandlerRunner);
+    public SignalisationEventHandlerRunnerDecorator(EventHandlerRunner eventHandlerRunner,
+                                                    SMSSender smsSender) {
+        this.eventHandlerRunnerWrapped = eventHandlerRunner;
         this.smsSender = smsSender;
     }
 
@@ -26,11 +27,11 @@ public class SignalisationEventHandlerRunnerDecorator extends BaseEventHandlerRu
                 signalisation.alarm();
                 smsSender.sendSMS(event.toString());
             } else {
-                super.runHandlers(event, smartHome);
+                eventHandlerRunnerWrapped.runHandlers(event, smartHome);
             }
         } else {
             // signalisation event
-            super.runHandlers(event, smartHome);
+            eventHandlerRunnerWrapped.runHandlers(event, smartHome);
         }
     }
 }

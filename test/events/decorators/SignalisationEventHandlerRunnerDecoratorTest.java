@@ -9,7 +9,7 @@ import ru.sbt.mipt.oop.events.SignalisationSensorEvent;
 import ru.sbt.mipt.oop.events.SimpleSensorEvent;
 import ru.sbt.mipt.oop.events.decorators.SMSSender;
 import ru.sbt.mipt.oop.events.decorators.SignalisationEventHandlerRunnerDecorator;
-import ru.sbt.mipt.oop.events.decorators.SignalisationSMSSender;
+import ru.sbt.mipt.oop.events.decorators.SimpleSMSSender;
 import ru.sbt.mipt.oop.events.eventhandlers.*;
 import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
@@ -56,7 +56,7 @@ public class SignalisationEventHandlerRunnerDecoratorTest {
                 new DoorCloseEventHandler(commandSender),
                 new DoorCloseInHallEventHandler("hall", commandSender)
         ));
-        smsSender = new SignalisationSMSSender();
+        smsSender = new SimpleSMSSender();
     }
 
     @Test

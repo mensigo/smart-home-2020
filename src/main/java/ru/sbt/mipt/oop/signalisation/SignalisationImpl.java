@@ -9,6 +9,7 @@ public class SignalisationImpl implements Signalisation {
         this.state = new DeactivatedSignalState(accessCode, this);
     }
 
+    // for tests
     public boolean isDeactivated() {
         return state instanceof DeactivatedSignalState;
     }
@@ -26,6 +27,7 @@ public class SignalisationImpl implements Signalisation {
         return accessCode.equals(code);
     }
 
+    // for tests
     public void setState(SignalState state) {
         this.state = state;
     }

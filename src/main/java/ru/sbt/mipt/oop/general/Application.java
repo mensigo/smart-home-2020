@@ -3,7 +3,7 @@ package ru.sbt.mipt.oop.general;
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.commands.CommandSenderImpl;
 import ru.sbt.mipt.oop.events.decorators.SignalisationEventHandlerRunnerDecorator;
-import ru.sbt.mipt.oop.events.decorators.SignalisationSMSSender;
+import ru.sbt.mipt.oop.events.decorators.SimpleSMSSender;
 import ru.sbt.mipt.oop.events.eventgenerators.EventGenerator;
 import ru.sbt.mipt.oop.events.eventgenerators.RandomEventGenerator;
 import ru.sbt.mipt.oop.events.eventhandlers.*;
@@ -45,7 +45,7 @@ public class Application {
                 new CustomSmartHomeDataInput(),
                 new SignalisationEventHandlerRunnerDecorator(
                         new EventHandlerRunnerImpl(eventHandlerList),
-                        new SignalisationSMSSender()
+                        new SimpleSMSSender()
                 ),
                 new RandomEventGenerator()
         );
