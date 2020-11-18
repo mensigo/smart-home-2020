@@ -4,20 +4,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.sbt.mipt.oop.events.decorators.SMSSender;
 import ru.sbt.mipt.oop.events.decorators.SignalisationEventHandlerRunnerDecorator;
-import ru.sbt.mipt.oop.events.decorators.SignalisationSMSSender;
+import ru.sbt.mipt.oop.events.decorators.SimpleSMSSender;
 import ru.sbt.mipt.oop.events.eventhandlers.EventHandlerRunner;
 
 @Configuration
 public class DecoratorConfig {
-
     @Bean
-    SignalisationEventHandlerRunnerDecorator createSignalisationEventHandlerRunnerDecorator(EventHandlerRunner eventHandlerRunner,
-                                                                                            SMSSender smsSender) {
+    SignalisationEventHandlerRunnerDecorator signalisationEventHandlerRunnerDecorator(
+            EventHandlerRunner eventHandlerRunner,
+            SMSSender smsSender) {
         return new SignalisationEventHandlerRunnerDecorator(eventHandlerRunner, smsSender);
     }
 
     @Bean
-    SMSSender createSMSSender() {
-        return new SignalisationSMSSender();
+    SMSSender smsSender() {
+        return new SimpleSMSSender();
     }
 }
