@@ -17,23 +17,12 @@ import ru.sbt.mipt.oop.objects.SmartHome;
 import java.util.Arrays;
 import java.util.List;
 
-public class LegacyApplication {
-    private final SmartHomeDataInput smartHomeDataInput;
-    private final EventGenerator eventGenerator;
-    private final EventHandlerRunner eventScenarioChooser;
-    private final RemoteControl remoteControl;
-    private final SmartHome smartHome;
 
-    public LegacyApplication(SmartHomeDataInput smartHomeDataInput,
-                             EventHandlerRunner eventScenarioChooser,
-                             EventGenerator eventGenerator,
-                             RemoteControl remoteControl
-                             ) {
-        this.smartHomeDataInput = smartHomeDataInput;
-        this.smartHome = this.smartHomeDataInput.readSmartHomeData();
-        this.eventScenarioChooser = eventScenarioChooser;
-        this.eventGenerator = eventGenerator;
-        this.remoteControl = remoteControl;
+public class Application {
+    private final SmartHome smartHome; // is hidden from user
+
+    public Application(SmartHomeDataInput smartHomeDataInput) {
+        this.smartHome = smartHomeDataInput.readSmartHomeData();
     }
 
     public static void main(String[] args) {
@@ -49,18 +38,15 @@ public class LegacyApplication {
                 new DoorCloseInHallEventHandler(hallName, commandSender)
                 // more eventHandlers can be added here
         );
-        LegacyApplication application = new LegacyApplication(
-                new CustomSmartHomeDataInput(),
-                new SignalisationEventHandlerRunnerDecorator(
-                        new EventHandlerRunnerImpl(eventHandlerList),
-                        new SimpleSMSSender()
-                ),
-                new RandomEventGenerator(),
-                null // need smartHome to be initialized -> use springApp
+        EventHandlerRunner eventHandlerRunner = new SignalisationEventHandlerRunnerDecorator(
+                new EventHandlerRunnerImpl(eventHandlerList),
+                new SimpleSMSSender()
         );
+        EventGenerator eventGenerator = new RandomEventGenerator();
+        Application application = new Application(new CustomSmartHomeDataInput());
         RunningCycleApplication runCycleApplication = new RunningCycleApplication(
-                application.eventGenerator,
-                application.eventScenarioChooser,
+                eventGenerator,
+                eventHandlerRunner,
                 application.smartHome);
         runCycleApplication.run();
     }

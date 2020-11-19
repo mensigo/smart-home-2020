@@ -1,11 +1,13 @@
 package ru.sbt.mipt.oop.spring;
 
-import com.coolcompany.smarthome.events.SensorEventsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.sbt.mipt.oop.events.SensorEventType;
+import ru.sbt.mipt.oop.events.decorators.SignalisationEventHandlerRunnerDecorator;
 import ru.sbt.mipt.oop.lib.coolcompany.CCEventTypeTranslator;
 import ru.sbt.mipt.oop.lib.coolcompany.CCEventTypeTranslatorImpl;
+import ru.sbt.mipt.oop.lib.coolcompany.EventHandlerRunnerAdapter;
+import ru.sbt.mipt.oop.objects.SmartHome;
 
 import java.util.Map;
 
@@ -15,8 +17,10 @@ import static ru.sbt.mipt.oop.events.SensorEventType.*;
 @Configuration
 public class CCLibConfig {
     @Bean
-    SensorEventsManager sensorEventsManager() {
-        return new SensorEventsManager();
+    EventHandlerRunnerAdapter eventHandlerRunnerAdapter(CCEventTypeTranslator ccEventTypeTranslator,
+                                                        SignalisationEventHandlerRunnerDecorator decoratedEventHandlerRunner,
+                                                        SmartHome smartHome) {
+        return new EventHandlerRunnerAdapter(ccEventTypeTranslator, decoratedEventHandlerRunner, smartHome);
     }
 
     @Bean
