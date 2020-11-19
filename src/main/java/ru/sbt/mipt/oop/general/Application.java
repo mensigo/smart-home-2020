@@ -14,18 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Application {
-    private final SmartHomeDataInput smartHomeDataInput;
-    private final EventGenerator eventGenerator;
-    private final EventHandlerRunner eventScenarioChooser;
-    private final SmartHome smartHome;
+    private final SmartHome smartHome; // is hidden from user
 
-    public Application(SmartHomeDataInput smartHomeDataInput,
-                       EventHandlerRunner eventScenarioChooser,
-                       EventGenerator eventGenerator) {
-        this.smartHomeDataInput = smartHomeDataInput;
-        this.smartHome = this.smartHomeDataInput.readSmartHomeData();
-        this.eventScenarioChooser = eventScenarioChooser;
-        this.eventGenerator = eventGenerator;
+    public Application(SmartHomeDataInput smartHomeDataInput) {
+        this.smartHome = smartHomeDataInput.readSmartHomeData();
     }
 
     public static void main(String[] args) {
@@ -41,17 +33,15 @@ public class Application {
                 new DoorCloseInHallEventHandler(hallName, commandSender)
                 // more eventHandlers can be added here
         );
-        Application application = new Application(
-                new CustomSmartHomeDataInput(),
-                new SignalisationEventHandlerRunnerDecorator(
-                        new EventHandlerRunnerImpl(eventHandlerList),
-                        new SimpleSMSSender()
-                ),
-                new RandomEventGenerator()
+        EventHandlerRunner eventHandlerRunner = new SignalisationEventHandlerRunnerDecorator(
+                new EventHandlerRunnerImpl(eventHandlerList),
+                new SimpleSMSSender()
         );
+        EventGenerator eventGenerator = new RandomEventGenerator();
+        Application application = new Application(new CustomSmartHomeDataInput());
         RunningCycleApplication runCycleApplication = new RunningCycleApplication(
-                application.eventGenerator,
-                application.eventScenarioChooser,
+                eventGenerator,
+                eventHandlerRunner,
                 application.smartHome);
         runCycleApplication.run();
     }
