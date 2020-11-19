@@ -18,9 +18,18 @@ import static java.util.Map.entry;
 
 @Configuration
 public class RCLibConfig {
-    final String hallName = "hall";
-    final String standardSigActivateCode = "0000";
-    final String standardId = "abc123";
+    private final String hallName = "hall";
+    private final String standardAccessCode = "0000";
+
+    // necessary beans
+    @Bean
+    String standardButtonCode() {
+        return "A";
+    }
+    @Bean
+    Boolean standardIsQuiet() {
+        return false;
+    }
 
     @Bean
     RemoteControlRegistry remoteControlRegistry(Map<String, RemoteControl> rcMap) {
@@ -31,41 +40,48 @@ public class RCLibConfig {
         return registry;
     }
 
-    // is not a bean because it doesn't exist out of RemoteControl
+    @Bean
+    RemoteControl remoteControl(String rcId, List<ButtonCommand> buttonsList, List<String> allowedButtonsList) {
+        return new RemoteControlImpl(rcId, buttonsList, allowedButtonsList);
+    }
+
+    @Bean
     DoorCloseInHallButtonCommand doorCloseInHallButtonCommand(
             String buttonCode,
             SmartHome smartHome,
             CommandSender commandSender,
-            boolean isQuiet,
-            String hallName) {
+            Boolean isQuiet) {
         return new DoorCloseInHallButtonCommand(buttonCode, smartHome, commandSender, isQuiet, hallName);
     }
 
+    @Bean
     LightOffAllButtonCommand lightOffAllButtonCommand(
             String buttonCode,
             SmartHome smartHome,
             CommandSender commandSender,
-            boolean isQuiet) {
+            Boolean isQuiet) {
         return new LightOffAllButtonCommand(buttonCode, smartHome, commandSender, isQuiet);
     }
 
+    @Bean
     LightOnAllButtonCommand lightOnAllButtonCommand(
             String buttonCode,
             SmartHome smartHome,
             CommandSender commandSender,
-            boolean isQuiet) {
+            Boolean isQuiet) {
         return new LightOnAllButtonCommand(buttonCode, smartHome, commandSender, isQuiet);
     }
 
+    @Bean
     LightOnInHallButtonCommand lightOnInHallButtonCommand(
             String buttonCode,
             SmartHome smartHome,
             CommandSender commandSender,
-            boolean isQuiet,
-            String hallName) {
+            Boolean isQuiet) {
         return new LightOnInHallButtonCommand(buttonCode, smartHome, commandSender, isQuiet, hallName);
     }
 
+    @Bean
     SignalisationActivateButtonCommand signalisationActivateButtonCommand(
             String buttonCode,
             String enteredSignalCode,
@@ -73,6 +89,7 @@ public class RCLibConfig {
         return new SignalisationActivateButtonCommand(buttonCode, enteredSignalCode, signalisation);
     }
 
+    @Bean
     SignalisationAlarmButtonCommand signalisationAlarmButtonCommand(String buttonCode, Signalisation signalisation) {
         return new SignalisationAlarmButtonCommand(buttonCode, signalisation);
     }
@@ -83,9 +100,9 @@ public class RCLibConfig {
         return Arrays.asList(
                 lightOffAllButtonCommand("A", smartHome, commandSender, false),
                 lightOnAllButtonCommand("B", smartHome, commandSender, false),
-                doorCloseInHallButtonCommand("C", smartHome, commandSender, false, hallName),
-                lightOnInHallButtonCommand("D", smartHome, commandSender, false, hallName),
-                signalisationActivateButtonCommand("1", standardSigActivateCode, signalisation),
+                doorCloseInHallButtonCommand("C", smartHome, commandSender, false),
+                lightOnInHallButtonCommand("D", smartHome, commandSender, false),
+                signalisationActivateButtonCommand("1", standardAccessCode, signalisation),
                 signalisationAlarmButtonCommand("2", signalisation)
                 // more button commands can be added here
         );
@@ -99,8 +116,9 @@ public class RCLibConfig {
 
     @Bean
     Map<String, RemoteControl> idToRemoteControlMap(List<ButtonCommand> buttonsList, List<String> allowedButtonsList) {
+        String rcId = "abc123";
         return Map.ofEntries(
-            entry(standardId, new RemoteControlImpl(standardId, buttonsList, allowedButtonsList))
+            entry(rcId, remoteControl(rcId, buttonsList, allowedButtonsList))
             // more remote controls can be added here
         );
     }
