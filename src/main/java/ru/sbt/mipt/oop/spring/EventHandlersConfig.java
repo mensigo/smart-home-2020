@@ -1,6 +1,5 @@
 package ru.sbt.mipt.oop.spring;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Configuration
 public class EventHandlersConfig {
-    final String hallName = "hall"; // to be scanned
+    final String hallName = "hall";
 
     @Bean
     AlarmActivateEventHandler alarmActivateEventHandler() {

@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignalisationAlarmButtonCommandTest {
     private SmartHome smartHome;
@@ -48,7 +48,7 @@ public class SignalisationAlarmButtonCommandTest {
         // when
         buttonCommand.execute(buttonCode);
         // then
-        assertEquals(STATE_ALARMED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class SignalisationAlarmButtonCommandTest {
         // when
         buttonCommand.execute(buttonCode);
         // then
-        assertEquals(STATE_DEACTIVATED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class SignalisationAlarmButtonCommandTest {
         // when
         buttonCommand.execute(buttonCode);
         // then
-        assertEquals(STATE_ALARMED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
     }
 
     @Test
@@ -95,6 +95,6 @@ public class SignalisationAlarmButtonCommandTest {
         String anotherButtonCode = "B";
         buttonCommand.execute(anotherButtonCode);
         // then
-        assertEquals(STATE_ACTIVATED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
     }
 }

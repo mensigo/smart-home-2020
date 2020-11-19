@@ -25,7 +25,6 @@ public class LegacyApplication {
     private final SmartHome smartHome;
 
     public LegacyApplication(SmartHomeDataInput smartHomeDataInput,
-                             SmartHomeDataOutput smartHomeDataOutput,
                              EventHandlerRunner eventScenarioChooser,
                              EventGenerator eventGenerator,
                              RemoteControl remoteControl

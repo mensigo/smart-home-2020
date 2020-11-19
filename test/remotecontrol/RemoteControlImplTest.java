@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.STATE_DEACTIVATED;
 
 public class RemoteControlImplTest {
     private List<Light> lights;
@@ -26,6 +25,7 @@ public class RemoteControlImplTest {
     private SmartHome smartHome;
     private String standardSignalCode;
     private List<ButtonCommand> buttonsList;
+    private List<String> allowedButtonCodes;
 
     @BeforeEach
     public void prepareSmartHome() {
@@ -48,13 +48,14 @@ public class RemoteControlImplTest {
         buttonsList = Collections.singletonList(
                 new LightOffAllButtonCommand("A", smartHome, commandSender, false)
         );
+        allowedButtonCodes = Arrays.asList("A", "B", "C", "D", "1", "2", "3", "4");
     }
 
     @Test
     void tryToHandleButtonCommandDoNothingWhenButtonCodeIsMissed() {
         // given
         String rcId = "abc123";
-        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttonsList);
+        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttonsList, allowedButtonCodes);
         // when
         String enteredButtonCode = "Z";
         remoteControl.onButtonPressed(enteredButtonCode, rcId);
@@ -62,7 +63,7 @@ public class RemoteControlImplTest {
         assertFalse(lights.get(0).isOn());
         assertTrue(lights.get(1).isOn());
         assertTrue(doors.get(0).isOpen());
-        assertEquals(STATE_DEACTIVATED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(standardSignalCode));
     }
 
@@ -70,7 +71,7 @@ public class RemoteControlImplTest {
     void tryToHandleButtonCommandSucceedWhenButtonCodeIsPresented() {
         // given
         String rcId = "abc123";
-        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttonsList);
+        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttonsList, allowedButtonCodes);
         // when
         String enteredButtonCode = "A";
         remoteControl.onButtonPressed(enteredButtonCode, rcId);

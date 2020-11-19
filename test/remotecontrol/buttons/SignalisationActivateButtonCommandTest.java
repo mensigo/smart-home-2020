@@ -15,9 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.sbt.mipt.oop.signalisation.SignalStateName.*;
 
 public class SignalisationActivateButtonCommandTest {
     private SmartHome smartHome;
@@ -53,7 +51,7 @@ public class SignalisationActivateButtonCommandTest {
         // when
         buttonCommand.execute(buttonCode);
         // then
-        assertEquals(STATE_ACTIVATED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(enteredCode));
     }
 
@@ -70,7 +68,7 @@ public class SignalisationActivateButtonCommandTest {
         // when
         buttonCommand.execute(buttonCode);
         // then
-        assertEquals(STATE_ACTIVATED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(enteredCode));
     }
 
@@ -89,7 +87,7 @@ public class SignalisationActivateButtonCommandTest {
         // when
         buttonCommand.execute(buttonCode);
         // then
-        assertEquals(STATE_ALARMED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(enteredCode));
     }
 
@@ -107,7 +105,7 @@ public class SignalisationActivateButtonCommandTest {
         String anotherButtonCode = "B";
         buttonCommand.execute(anotherButtonCode);
         // then
-        assertEquals(STATE_DEACTIVATED, smartHome.getSignalisation().getState().getName());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(standardCode));
     }
 }
