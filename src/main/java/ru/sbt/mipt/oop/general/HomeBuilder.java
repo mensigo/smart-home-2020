@@ -6,6 +6,7 @@ import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
 import ru.sbt.mipt.oop.objects.SmartHome;
+import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,6 +47,7 @@ public class HomeBuilder {
                         new Light("9", false)),
                 Collections.singletonList(new Door(true, "4")),
                 "hall");
-        return new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall));
+        SignalisationImpl signalisation = new SignalisationImpl("0000");
+        return new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall), signalisation);
     }
 }
