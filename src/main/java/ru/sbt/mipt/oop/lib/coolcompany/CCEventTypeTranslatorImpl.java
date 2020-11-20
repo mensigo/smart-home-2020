@@ -16,7 +16,7 @@ public class CCEventTypeTranslatorImpl implements CCEventTypeTranslator {
 
     @Override
     public SensorEvent translate(CCSensorEvent ccEvent) {
-        if (ccEvent == null) return null;
+        if (ccEvent == null || !ccEventTypeToSensorEventTypeMap.containsKey(ccEvent.getEventType())) return null;
         SensorEventType sensorEventType = ccEventTypeToSensorEventTypeMap.get(ccEvent.getEventType());
         return new SimpleSensorEvent(sensorEventType, ccEvent.getObjectId(), false);
     }
