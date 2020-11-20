@@ -57,15 +57,14 @@ public class DoorCloseInHallEventHandlerTest {
     }
 
     @Test
-    void handleDoorInHallScenarioDoNothingWhenDoorIsClosed() {
+    void handleDoorInHallScenarioTurnOffAllLightsAndSendCommandsToThemWhenDoorIsClosed() {
         // given
         SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "2", false);
         EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler("hall", commandSender);
         // when
         smartDoorEventHandler.handleEvent(event, smartHome);
         // then
-        System.out.println(lights);
         assertFalse(lights.get(0).isOn());
-        assertTrue(lights.get(1).isOn());
+        assertFalse(lights.get(1).isOn());
     }
 }
