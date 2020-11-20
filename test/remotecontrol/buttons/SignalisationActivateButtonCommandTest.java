@@ -38,74 +38,41 @@ public class SignalisationActivateButtonCommandTest {
     }
 
     @Test
-    void tryToActivateSignalisationDoNothingWhenItIsActivatedAndButtonCodeIsRight() {
+    void tryToActivateSignalisationDoNothingWhenItIsActivated() {
         // given
         String enteredCode = "1234";
         signalisation.activate(enteredCode);
-        String buttonCode = "A";
-        ButtonCommand buttonCommand = new SignalisationActivateButtonCommand(
-                buttonCode,
-                enteredCode,
-                signalisation
-        );
+        ButtonCommand buttonCommand = new SignalisationActivateButtonCommand(enteredCode, signalisation);
         // when
-        buttonCommand.execute(buttonCode);
+        buttonCommand.execute();
         // then
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(enteredCode));
     }
 
     @Test
-    void tryToActivateSignalisationSucceedWhenItIsDeactivatedAndButtonCodeIsRight() {
+    void tryToActivateSignalisationSucceedWhenItIsDeactivated() {
         // given
         String enteredCode = "1234";
-        String buttonCode = "A";
-        ButtonCommand buttonCommand = new SignalisationActivateButtonCommand(
-                buttonCode,
-                enteredCode,
-                signalisation
-        );
+        ButtonCommand buttonCommand = new SignalisationActivateButtonCommand(enteredCode, signalisation);
         // when
-        buttonCommand.execute(buttonCode);
+        buttonCommand.execute();
         // then
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isActivated());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(enteredCode));
     }
 
     @Test
-    void tryToActivateSignalisationDoNothingWhenItIsAlarmedAndButtonCodeIsRight() {
+    void tryToActivateSignalisationDoNothingWhenItIsAlarmed() {
         // given
         String enteredCode = "1234";
         signalisation.activate(enteredCode);
         signalisation.alarm();
-        String buttonCode = "A";
-        ButtonCommand buttonCommand = new SignalisationActivateButtonCommand(
-                buttonCode,
-                enteredCode,
-                signalisation
-        );
+        ButtonCommand buttonCommand = new SignalisationActivateButtonCommand(enteredCode, signalisation);
         // when
-        buttonCommand.execute(buttonCode);
+        buttonCommand.execute();
         // then
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAlarmed());
         assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(enteredCode));
-    }
-
-    @Test
-    void tryToActivateSignalisationDoNothingWhenButtonCodeIsWrong() {
-        // given
-        String enteredCode = "1234";
-        String buttonCode = "A";
-        ButtonCommand buttonCommand = new SignalisationActivateButtonCommand(
-                buttonCode,
-                enteredCode,
-                signalisation
-        );
-        // when
-        String anotherButtonCode = "B";
-        buttonCommand.execute(anotherButtonCode);
-        // then
-        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
-        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(standardCode));
     }
 }

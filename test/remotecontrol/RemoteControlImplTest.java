@@ -16,6 +16,7 @@ import ru.sbt.mipt.oop.signalisation.SignalisationImpl;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,7 @@ public class RemoteControlImplTest {
     private List<Door> doors;
     private SmartHome smartHome;
     private String standardSignalCode;
-    private List<ButtonCommand> buttonsList;
+    private Map<String, ButtonCommand> buttons;
     private List<String> allowedButtonCodes;
 
     @BeforeEach
@@ -45,17 +46,15 @@ public class RemoteControlImplTest {
         smartHome = new SmartHome(rooms, signalisation);
         CommandSender commandSender = new CommandSenderImpl();
         String hallName = "hallName", enteredSignalCode = "0000";
-        buttonsList = Collections.singletonList(
-                new LightOffAllButtonCommand("A", smartHome, commandSender, false)
-        );
+        buttons = Map.of("A", new LightOffAllButtonCommand(smartHome, commandSender, false));
         allowedButtonCodes = Arrays.asList("A", "B", "C", "D", "1", "2", "3", "4");
     }
 
     @Test
-    void tryToHandleButtonCommandDoNothingWhenButtonCodeIsMissed() {
+    void tryToHandleButtonCommandDoNothingWhenButtonCodeIsNotAllowed() {
         // given
         String rcId = "abc123";
-        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttonsList, allowedButtonCodes);
+        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttons, allowedButtonCodes);
         // when
         String enteredButtonCode = "Z";
         remoteControl.onButtonPressed(enteredButtonCode, rcId);
@@ -68,10 +67,26 @@ public class RemoteControlImplTest {
     }
 
     @Test
-    void tryToHandleButtonCommandSucceedWhenButtonCodeIsPresented() {
+    void tryToHandleButtonCommandDoNothingWhenButtonCodeIsAllowedButNotImplementedByAnyButton() {
         // given
         String rcId = "abc123";
-        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttonsList, allowedButtonCodes);
+        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttons, allowedButtonCodes);
+        // when
+        String enteredButtonCode = "B";
+        remoteControl.onButtonPressed(enteredButtonCode, rcId);
+        // then
+        assertFalse(lights.get(0).isOn());
+        assertTrue(lights.get(1).isOn());
+        assertTrue(doors.get(0).isOpen());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isDeactivated());
+        assertTrue(((SignalisationImpl) smartHome.getSignalisation()).isAccessCode(standardSignalCode));
+    }
+
+    @Test
+    void tryToHandleButtonCommandSucceedWhenButtonCodeIsAllowedAndImplementedBySomeButton() {
+        // given
+        String rcId = "abc123";
+        RemoteControl remoteControl = new RemoteControlImpl(rcId, buttons, allowedButtonCodes);
         // when
         String enteredButtonCode = "A";
         remoteControl.onButtonPressed(enteredButtonCode, rcId);

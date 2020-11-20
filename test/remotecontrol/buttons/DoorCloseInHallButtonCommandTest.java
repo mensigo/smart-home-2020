@@ -42,41 +42,19 @@ public class DoorCloseInHallButtonCommandTest {
     }
 
     @Test
-    void handleDoorInHallScenarioCloseDoorTurnOffAllLightsAndSendCommandsToThemWhenButtonCodeIsRight() {
+    void handleDoorInHallScenarioCloseDoorTurnOffAllLightsAndSendCommandsToThem() {
         // given
-        String buttonCode = "A";
         ButtonCommand buttonCommand = new DoorCloseInHallButtonCommand(
-                buttonCode,
                 smartHome,
                 commandSender,
                 false,
                 "hall"
         );
         // when
-        buttonCommand.execute(buttonCode);
+        buttonCommand.execute();
         // then
         assertFalse(doors.get(0).isOpen());
         assertFalse(lights.get(0).isOn());
         assertFalse(lights.get(1).isOn());
-    }
-
-    @Test
-    void handleDoorInHallScenarioDoNothingWhenButtonCodeIsWrong() {
-        // given
-        String buttonCode = "A";
-        ButtonCommand buttonCommand = new DoorCloseInHallButtonCommand(
-                buttonCode,
-                smartHome,
-                commandSender,
-                false,
-                "hall"
-        );
-        // when
-        String anotherButtonCode = "B";
-        buttonCommand.execute(anotherButtonCode);
-        // then
-        assertTrue(doors.get(0).isOpen());
-        assertFalse(lights.get(0).isOn());
-        assertTrue(lights.get(1).isOn());
     }
 }

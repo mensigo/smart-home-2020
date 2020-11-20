@@ -44,37 +44,17 @@ public class LightOnAllButtonCommandTest {
     }
 
     @Test
-    void turnOnAllLightsWhenButtonCodeIsRight() {
+    void turnOnAllLights() {
         // given
-        String buttonCode = "A";
         ButtonCommand buttonCommand = new LightOnAllButtonCommand(
-                buttonCode,
                 smartHome,
                 commandSender,
                 false);
         // when
-        buttonCommand.execute(buttonCode);
+        buttonCommand.execute();
         // then
         assertTrue(lights.get(0).isOn());
         assertTrue(lights.get(1).isOn());
         assertTrue(lights.get(2).isOn());
-    }
-
-    @Test
-    void doNothingWhenButtonCodeIsWrong() {
-        // given
-        String buttonCode = "A";
-        ButtonCommand buttonCommand = new LightOnAllButtonCommand(
-                buttonCode,
-                smartHome,
-                commandSender,
-                false);
-        // when
-        String anotherButtonCode = "B";
-        buttonCommand.execute(anotherButtonCode);
-        // then
-        assertTrue(lights.get(0).isOn());
-        assertFalse(lights.get(1).isOn());
-        assertFalse(lights.get(2).isOn());
     }
 }

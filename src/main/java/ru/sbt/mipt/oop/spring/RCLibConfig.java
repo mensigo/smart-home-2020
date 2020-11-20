@@ -20,15 +20,13 @@ import static java.util.Map.entry;
 public class RCLibConfig {
     private final String hallName = "hall";
     private final String standardAccessCode = "0000";
+    private final String standardRcId = "abc123";
+    private final boolean isQuiet = false;
 
-    // necessary beans
+    // necessary bean (for signalisationActivateButtonCommand)
     @Bean
-    String standardButtonCode() {
-        return "A";
-    }
-    @Bean
-    Boolean standardIsQuiet() {
-        return false;
+    String standardStringValue() {
+        return "";
     }
 
     @Bean
@@ -41,84 +39,70 @@ public class RCLibConfig {
     }
 
     @Bean
-    RemoteControl remoteControl(String rcId, List<ButtonCommand> buttonsList, List<String> allowedButtonsList) {
-        return new RemoteControlImpl(rcId, buttonsList, allowedButtonsList);
+    RemoteControl remoteControl(String rcId, Map<String, ButtonCommand> buttons, List<String> allowedButtonCodes) {
+        return new RemoteControlImpl(rcId, buttons, allowedButtonCodes);
     }
 
     @Bean
-    DoorCloseInHallButtonCommand doorCloseInHallButtonCommand(
-            String buttonCode,
-            SmartHome smartHome,
-            CommandSender commandSender,
-            Boolean isQuiet) {
-        return new DoorCloseInHallButtonCommand(buttonCode, smartHome, commandSender, isQuiet, hallName);
+    DoorCloseInHallButtonCommand doorCloseInHallButtonCommand(SmartHome smartHome,
+                                                              CommandSender commandSender) {
+        return new DoorCloseInHallButtonCommand(smartHome, commandSender, isQuiet, hallName);
     }
 
     @Bean
-    LightOffAllButtonCommand lightOffAllButtonCommand(
-            String buttonCode,
-            SmartHome smartHome,
-            CommandSender commandSender,
-            Boolean isQuiet) {
-        return new LightOffAllButtonCommand(buttonCode, smartHome, commandSender, isQuiet);
+    LightOffAllButtonCommand lightOffAllButtonCommand(SmartHome smartHome,
+                                                      CommandSender commandSender) {
+        return new LightOffAllButtonCommand(smartHome, commandSender, isQuiet);
     }
 
     @Bean
-    LightOnAllButtonCommand lightOnAllButtonCommand(
-            String buttonCode,
-            SmartHome smartHome,
-            CommandSender commandSender,
-            Boolean isQuiet) {
-        return new LightOnAllButtonCommand(buttonCode, smartHome, commandSender, isQuiet);
+    LightOnAllButtonCommand lightOnAllButtonCommand(SmartHome smartHome,
+                                                    CommandSender commandSender) {
+        return new LightOnAllButtonCommand(smartHome, commandSender, isQuiet);
     }
 
     @Bean
-    LightOnInHallButtonCommand lightOnInHallButtonCommand(
-            String buttonCode,
-            SmartHome smartHome,
-            CommandSender commandSender,
-            Boolean isQuiet) {
-        return new LightOnInHallButtonCommand(buttonCode, smartHome, commandSender, isQuiet, hallName);
+    LightOnInHallButtonCommand lightOnInHallButtonCommand(SmartHome smartHome,
+                                                          CommandSender commandSender) {
+        return new LightOnInHallButtonCommand(smartHome, commandSender, isQuiet, hallName);
     }
 
     @Bean
-    SignalisationActivateButtonCommand signalisationActivateButtonCommand(
-            String buttonCode,
-            String enteredSignalCode,
-            Signalisation signalisation) {
-        return new SignalisationActivateButtonCommand(buttonCode, enteredSignalCode, signalisation);
+    SignalisationActivateButtonCommand signalisationActivateButtonCommand(String standardEnteredCode,
+                                                                          Signalisation signalisation) {
+        return new SignalisationActivateButtonCommand(standardEnteredCode, signalisation);
     }
 
     @Bean
-    SignalisationAlarmButtonCommand signalisationAlarmButtonCommand(String buttonCode, Signalisation signalisation) {
-        return new SignalisationAlarmButtonCommand(buttonCode, signalisation);
+    SignalisationAlarmButtonCommand signalisationAlarmButtonCommand(Signalisation signalisation) {
+        return new SignalisationAlarmButtonCommand(signalisation);
     }
 
     @Bean
-    List<ButtonCommand> sampleButtonsList(CommandSender commandSender, SmartHome smartHome) {
+    Map<String, ButtonCommand> sampleButtonCodeToButtonMap(CommandSender commandSender, SmartHome smartHome) {
         Signalisation signalisation = smartHome.getSignalisation();
-        return Arrays.asList(
-                lightOffAllButtonCommand("A", smartHome, commandSender, false),
-                lightOnAllButtonCommand("B", smartHome, commandSender, false),
-                doorCloseInHallButtonCommand("C", smartHome, commandSender, false),
-                lightOnInHallButtonCommand("D", smartHome, commandSender, false),
-                signalisationActivateButtonCommand("1", standardAccessCode, signalisation),
-                signalisationAlarmButtonCommand("2", signalisation)
+        return Map.ofEntries(
+                entry("A", lightOffAllButtonCommand(smartHome, commandSender)),
+                entry("B", lightOnAllButtonCommand(smartHome, commandSender)),
+                entry("C", doorCloseInHallButtonCommand(smartHome, commandSender)),
+                entry("D", lightOnInHallButtonCommand(smartHome, commandSender)),
+                entry("1", signalisationActivateButtonCommand(standardAccessCode, signalisation)),
+                entry("2", signalisationAlarmButtonCommand(signalisation))
                 // more button commands can be added here
         );
     }
 
     @Bean
-    List<String> allowedButtonCodes() {
+    List<String> allowedButtonCodesList() {
         return Arrays.asList("A", "B", "C", "D", "1", "2", "3", "4");
         // more allowed button codes can be added here
     }
 
     @Bean
-    Map<String, RemoteControl> idToRemoteControlMap(List<ButtonCommand> buttonsList, List<String> allowedButtonsList) {
-        String rcId = "abc123";
+    Map<String, RemoteControl> SampleRemoteControlIdToRemoteControlMap(Map<String, ButtonCommand> buttons,
+                                                                       List<String> allowedButtonCodes) {
         return Map.ofEntries(
-            entry(rcId, remoteControl(rcId, buttonsList, allowedButtonsList))
+            entry(standardRcId, remoteControl(standardRcId, buttons, allowedButtonCodes))
             // more remote controls can be added here
         );
     }
