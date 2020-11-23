@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop.events.eventhandlers;
 
-import ru.sbt.mipt.oop.actions.DoorCloseInHallAction;
+import ru.sbt.mipt.oop.actions.DoorCloseByIdInHallEffectAction;
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.events.SensorEvent;
 import ru.sbt.mipt.oop.events.SimpleSensorEvent;
@@ -20,7 +20,7 @@ public class DoorCloseInHallEventHandler implements EventHandler {
     @Override
     public void handleEvent(SensorEvent event, SmartHome smartHome) {
         if (event instanceof SimpleSensorEvent && event.getType().equals(DOOR_CLOSE)) {
-            smartHome.execute(new DoorCloseInHallAction(event.getObjectId(), hallName, event.isQuiet(), commandSender));
+            smartHome.execute(new DoorCloseByIdInHallEffectAction(event.getObjectId(), hallName, event.isQuiet(), commandSender));
         }
     }
 }

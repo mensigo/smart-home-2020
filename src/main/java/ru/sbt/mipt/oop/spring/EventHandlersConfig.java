@@ -11,7 +11,7 @@ import java.util.List;
 
 @Configuration
 public class EventHandlersConfig {
-    final String hallName = "hall"; // to be scanned
+    final String hallName = "hall";
 
     @Bean
     AlarmActivateEventHandler alarmActivateEventHandler() {

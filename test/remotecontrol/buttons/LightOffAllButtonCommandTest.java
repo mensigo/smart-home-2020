@@ -1,12 +1,11 @@
-package events.eventhandlers;
+package remotecontrol.buttons;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.commands.CommandSender;
 import ru.sbt.mipt.oop.commands.CommandSenderImpl;
-import ru.sbt.mipt.oop.events.SimpleSensorEvent;
-import ru.sbt.mipt.oop.events.eventhandlers.DoorCloseInHallEventHandler;
-import ru.sbt.mipt.oop.events.eventhandlers.EventHandler;
+import ru.sbt.mipt.oop.lib.remotecontrol.buttons.ButtonCommand;
+import ru.sbt.mipt.oop.lib.remotecontrol.buttons.LightOffAllButtonCommand;
 import ru.sbt.mipt.oop.objects.Door;
 import ru.sbt.mipt.oop.objects.Light;
 import ru.sbt.mipt.oop.objects.Room;
@@ -18,23 +17,23 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.sbt.mipt.oop.events.SensorEventType.DOOR_CLOSE;
 
-public class DoorCloseInHallEventHandlerTest {
-    private String roomName;
+public class LightOffAllButtonCommandTest {
     private List<Light> lights;
-    private List<Door> doors;
     private SmartHome smartHome;
     private CommandSender commandSender;
 
     @BeforeEach
     public void prepareSmartHome() {
-        roomName = "hall";
-        lights = Arrays.asList(
-                new Light("1", false),
-                new Light("2", true));
-        doors = Collections.singletonList(
-                new Door(true, "1")
+        String roomName = "kitchen";
+        lights= Arrays.asList(
+                new Light("1", true),
+                new Light("2", true),
+                new Light("3", false)
+        );
+        List<Door> doors = Arrays.asList(
+                new Door(false, "1"),
+                new Door(true, "2")
         );
         Room room = new Room(lights, doors, roomName);
         List<Room> rooms = Collections.singletonList(room);
@@ -44,14 +43,17 @@ public class DoorCloseInHallEventHandlerTest {
     }
 
     @Test
-    void handleDoorInHallScenarioTurnOffAllLightsAndSendCommandsToThemWhenDoorIsInHall() {
+    void turnOffAllLights() {
         // given
-        SimpleSensorEvent event = new SimpleSensorEvent(DOOR_CLOSE, "1", false);
-        EventHandler smartDoorEventHandler = new DoorCloseInHallEventHandler(roomName, commandSender);
+        ButtonCommand buttonCommand = new LightOffAllButtonCommand(
+                smartHome,
+                commandSender,
+                false);
         // when
-        smartDoorEventHandler.handleEvent(event, smartHome);
+        buttonCommand.execute();
         // then
         assertFalse(lights.get(0).isOn());
         assertFalse(lights.get(1).isOn());
+        assertFalse(lights.get(2).isOn());
     }
 }
